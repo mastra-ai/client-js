@@ -9,9 +9,9 @@ export function getRuntime({ manuallyImported }: { manuallyImported?: boolean } 
   const recommendation =
     manuallyImported ?
       `You may need to use polyfills`
-    : `Add one of these imports before your first \`import … from 'mastra'\`:
-- \`import 'mastra/shims/node'\` (if you're running on Node)
-- \`import 'mastra/shims/web'\` (otherwise)
+    : `Add one of these imports before your first \`import … from '@mastra/client-js'\`:
+- \`import '@mastra/client-js/shims/node'\` (if you're running on Node)
+- \`import '@mastra/client-js/shims/web'\` (otherwise)
 `;
 
   let _fetch, _Request, _Response, _Headers;

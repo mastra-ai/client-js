@@ -9,9 +9,9 @@
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
-      "mastra/_shims/auto/*": ["src/_shims/auto/*-node"],
-      "mastra/*": ["src/*"],
-      "mastra": ["src/index.ts"]
+      "@mastra/client-js/_shims/auto/*": ["src/_shims/auto/*-node"],
+      "@mastra/client-js/*": ["src/*"],
+      "@mastra/client-js": ["src/index.ts"]
     },
     "noEmit": true,
 

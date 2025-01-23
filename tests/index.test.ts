@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Mastra from 'mastra';
-import { APIUserAbortError } from 'mastra';
-import { Headers } from 'mastra/core';
+import Mastra from '@mastra/client-js';
+import { APIUserAbortError } from '@mastra/client-js';
+import { Headers } from '@mastra/client-js/core';
 import defaultFetch, { Response, type RequestInit, type RequestInfo } from 'node-fetch';
 
 describe('instantiate client', () => {
