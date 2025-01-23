@@ -1,6 +1,6 @@
 # Mastra Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/mastra.svg)](https://npmjs.org/package/mastra) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/mastra)
+[![NPM version](https://img.shields.io/npm/v/@mastra/client-js.svg)](https://npmjs.org/package/@mastra/client-js) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@mastra/client-js)
 
 This library provides convenient access to the Mastra REST API from server-side TypeScript or JavaScript.
 
@@ -15,7 +15,7 @@ npm install git+ssh://git@github.com:stainless-sdks/mastra-node.git
 ```
 
 > [!NOTE]
-> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install mastra`
+> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install @mastra/client-js`
 
 ## Usage
 
@@ -23,7 +23,7 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import Mastra from 'mastra';
+import Mastra from '@mastra/client-js';
 
 const client = new Mastra();
 
@@ -40,7 +40,7 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Mastra from 'mastra';
+import Mastra from '@mastra/client-js';
 
 const client = new Mastra();
 
@@ -207,11 +207,11 @@ add the following import before your first import `from "Mastra"`:
 ```ts
 // Tell TypeScript and the package to use the global web fetch instead of node-fetch.
 // Note, despite the name, this does not add any polyfills, but expects them to be provided if needed.
-import 'mastra/shims/web';
-import Mastra from 'mastra';
+import '@mastra/client-js/shims/web';
+import Mastra from '@mastra/client-js';
 ```
 
-To do the inverse, add `import "mastra/shims/node"` (which does import polyfills).
+To do the inverse, add `import "@mastra/client-js/shims/node"` (which does import polyfills).
 This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/stainless-sdks/mastra-node/tree/main/src/_shims#readme)).
 
 ### Logging and middleware
@@ -221,7 +221,7 @@ which can be used to inspect or alter the `Request` or `Response` before/after e
 
 ```ts
 import { fetch } from 'undici'; // as one example
-import Mastra from 'mastra';
+import Mastra from '@mastra/client-js';
 
 const client = new Mastra({
   fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {

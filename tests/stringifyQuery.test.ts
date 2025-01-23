@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Mastra } from 'mastra';
+import { Mastra } from '@mastra/client-js';
 
 const { stringifyQuery } = Mastra.prototype as any;
 

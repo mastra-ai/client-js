@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { toFile, type ResponseLike } from 'mastra/uploads';
-import { File } from 'mastra/_shims/index';
+import { toFile, type ResponseLike } from '@mastra/client-js/uploads';
+import { File } from '@mastra/client-js/_shims/index';
 
 class MyClass {
   name: string = 'foo';

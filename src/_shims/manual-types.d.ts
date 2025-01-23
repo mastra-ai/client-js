@@ -4,8 +4,8 @@
 /**
  * Types will get added to this namespace when you import one of the following:
  *
- *   import 'mastra/shims/node'
- *   import 'mastra/shims/web'
+ *   import '@mastra/client-js/shims/node'
+ *   import '@mastra/client-js/shims/web'
  *
  * Importing more than one will cause type and runtime errors.
  */

@@ -1,5 +1,5 @@
 {
-  "name": "mastra",
+  "name": "@mastra/client-js",
   "version": "0.0.1-alpha.0",
   "description": "The official TypeScript library for the Mastra API",
   "author": "Mastra <dev-feedback@mastra.com>",
@@ -59,8 +59,8 @@
     "./shims/web.mjs"
   ],
   "imports": {
-    "mastra": ".",
-    "mastra/*": "./src/*"
+    "@mastra/client-js": ".",
+    "@mastra/client-js/*": "./src/*"
   },
   "exports": {
     "./_shims/auto/*": {

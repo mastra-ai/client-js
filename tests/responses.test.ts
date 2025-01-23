@@ -1,5 +1,5 @@
-import { createResponseHeaders } from 'mastra/core';
-import { Headers } from 'mastra/_shims/index';
+import { createResponseHeaders } from '@mastra/client-js/core';
+import { Headers } from '@mastra/client-js/_shims/index';
 
 describe('response parsing', () => {
   // TODO: test unicode characters

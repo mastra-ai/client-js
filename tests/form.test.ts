@@ -1,6 +1,6 @@
-import { multipartFormRequestOptions, createForm } from 'mastra/core';
-import { Blob } from 'mastra/_shims/index';
-import { toFile } from 'mastra';
+import { multipartFormRequestOptions, createForm } from '@mastra/client-js/core';
+import { Blob } from '@mastra/client-js/_shims/index';
+import { toFile } from '@mastra/client-js';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "mastra/*": ["dist/src/*"],
-      "mastra": ["dist/src/index.ts"],
+      "@mastra/client-js/*": ["dist/src/*"],
+      "@mastra/client-js": ["dist/src/index.ts"],
     },
     "noEmit": false,
     "declaration": true,
