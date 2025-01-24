@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { Mastra } from './index';
+import type { MastraClient } from './index';
 
 export class APIResource {
-  protected _client: Mastra;
+  protected _client: MastraClient;
 
-  constructor(client: Mastra) {
+  constructor(client: MastraClient) {
     this._client = client;
   }
 }

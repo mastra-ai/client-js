@@ -22,7 +22,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['MASTRA_BASE_URL'].
+   * Defaults to process.env['MASTRA_CLIENT_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -77,15 +77,15 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Mastra API.
+ * API Client for interfacing with the Mastra Client API.
  */
-export class Mastra extends Core.APIClient {
+export class MastraClient extends Core.APIClient {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Mastra API.
+   * API Client for interfacing with the Mastra Client API.
    *
-   * @param {string} [opts.baseURL=process.env['MASTRA_BASE_URL'] ?? http://localhost:4111] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['MASTRA_CLIENT_BASE_URL'] ?? http://localhost:4111] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
    * @param {Core.Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -93,7 +93,7 @@ export class Mastra extends Core.APIClient {
    * @param {Core.Headers} opts.defaultHeaders - Default headers to include with every request to the API.
    * @param {Core.DefaultQuery} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
-  constructor({ baseURL = Core.readEnv('MASTRA_BASE_URL'), ...opts }: ClientOptions = {}) {
+  constructor({ baseURL = Core.readEnv('MASTRA_CLIENT_BASE_URL'), ...opts }: ClientOptions = {}) {
     const options: ClientOptions = {
       ...opts,
       baseURL: baseURL || `http://localhost:4111`,
@@ -130,10 +130,10 @@ export class Mastra extends Core.APIClient {
     };
   }
 
-  static Mastra = this;
+  static MastraClient = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static MastraError = Errors.MastraError;
+  static MastraClientError = Errors.MastraClientError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -151,15 +151,15 @@ export class Mastra extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-Mastra.System = System;
-Mastra.Agents = Agents;
-Mastra.Memory = Memory;
-Mastra.MemoryThreads = MemoryThreads;
-Mastra.Workflows = Workflows;
-Mastra.Syncs = Syncs;
-Mastra.Logs = Logs;
-Mastra.Tools = Tools;
-export declare namespace Mastra {
+MastraClient.System = System;
+MastraClient.Agents = Agents;
+MastraClient.Memory = Memory;
+MastraClient.MemoryThreads = MemoryThreads;
+MastraClient.Workflows = Workflows;
+MastraClient.Syncs = Syncs;
+MastraClient.Logs = Logs;
+MastraClient.Tools = Tools;
+export declare namespace MastraClient {
   export type RequestOptions = Core.RequestOptions;
 
   export { System as System };
@@ -189,7 +189,7 @@ export declare namespace Mastra {
 
 export { toFile, fileFromPath } from './uploads';
 export {
-  MastraError,
+  MastraClientError,
   APIError,
   APIConnectionError,
   APIConnectionTimeoutError,
@@ -204,4 +204,4 @@ export {
   UnprocessableEntityError,
 } from './error';
 
-export default Mastra;
+export default MastraClient;
