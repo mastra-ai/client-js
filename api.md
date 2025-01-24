@@ -35,29 +35,19 @@ Methods:
 
 Methods:
 
-- <code title="post /api/memory/threads">client.memory.threads.<a href="./src/resources/memory/threads.ts">create</a>() -> void</code>
-- <code title="get /api/memory/threads/{threadId}">client.memory.threads.<a href="./src/resources/memory/threads.ts">retrieve</a>(threadId) -> void</code>
-- <code title="get /api/memory/threads">client.memory.threads.<a href="./src/resources/memory/threads.ts">list</a>() -> void</code>
+- <code title="post /api/memory/threads">client.memory.threads.<a href="./src/resources/memory/threads/threads.ts">create</a>() -> void</code>
+- <code title="get /api/memory/threads/{threadId}">client.memory.threads.<a href="./src/resources/memory/threads/threads.ts">retrieve</a>(threadId) -> void</code>
+- <code title="patch /api/memory/threads/{threadId}">client.memory.threads.<a href="./src/resources/memory/threads/threads.ts">update</a>(threadId, { ...params }) -> void</code>
+- <code title="get /api/memory/threads">client.memory.threads.<a href="./src/resources/memory/threads/threads.ts">list</a>() -> void</code>
+- <code title="delete /api/memory/threads/{threadId}">client.memory.threads.<a href="./src/resources/memory/threads/threads.ts">delete</a>(threadId) -> void</code>
+- <code title="post /api/memory/threads/{threadId}/tool-result">client.memory.threads.<a href="./src/resources/memory/threads/threads.ts">toolResult</a>(threadId, { ...params }) -> void</code>
 
-# MemoryThreads
-
-Methods:
-
-- <code title="patch /api/memory/threads/{threadId}">client.memoryThreads.<a href="./src/resources/memory-threads/memory-threads.ts">update</a>(threadId, { ...params }) -> void</code>
-- <code title="delete /api/memory/threads/{threadId}">client.memoryThreads.<a href="./src/resources/memory-threads/memory-threads.ts">delete</a>(threadId) -> void</code>
-- <code title="post /api/memory/threads/{threadId}/tool-result">client.memoryThreads.<a href="./src/resources/memory-threads/memory-threads.ts">toolResult</a>(threadId, { ...params }) -> void</code>
-
-## Messages
+### Messages
 
 Methods:
 
-- <code title="get /api/memory/threads/{threadId}/messages">client.memoryThreads.messages.<a href="./src/resources/memory-threads/messages.ts">list</a>(threadId) -> void</code>
-
-## ContextWindow
-
-Methods:
-
-- <code title="get /api/memory/threads/{threadId}/context-window">client.memoryThreads.contextWindow.<a href="./src/resources/memory-threads/context-window.ts">retrieve</a>(threadId) -> void</code>
+- <code title="get /api/memory/threads/{threadId}/messages">client.memory.threads.messages.<a href="./src/resources/memory/threads/messages.ts">list</a>(threadId) -> void</code>
+- <code title="get /api/memory/threads/{threadId}/context-window">client.memory.threads.messages.<a href="./src/resources/memory/threads/messages.ts">contextWindow</a>(threadId) -> void</code>
 
 # Workflows
 
