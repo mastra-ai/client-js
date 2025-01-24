@@ -42,6 +42,21 @@ describe('resource threads', () => {
     ).rejects.toThrow(MastraClient.NotFoundError);
   });
 
+  test('update: only required params', async () => {
+    const responsePromise = client.memory.threads.update('threadId', {});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('update: required and optional params', async () => {
+    const response = await client.memory.threads.update('threadId', {});
+  });
+
   test('list', async () => {
     const responsePromise = client.memory.threads.list();
     const rawResponse = await responsePromise.asResponse();
@@ -58,5 +73,44 @@ describe('resource threads', () => {
     await expect(client.memory.threads.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       MastraClient.NotFoundError,
     );
+  });
+
+  test('delete', async () => {
+    const responsePromise = client.memory.threads.delete('threadId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('delete: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.memory.threads.delete('threadId', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(MastraClient.NotFoundError);
+  });
+
+  test('toolResult: only required params', async () => {
+    const responsePromise = client.memory.threads.toolResult('threadId', {
+      resultId: 'resultId',
+      toolId: 'toolId',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('toolResult: required and optional params', async () => {
+    const response = await client.memory.threads.toolResult('threadId', {
+      resultId: 'resultId',
+      toolId: 'toolId',
+    });
   });
 });

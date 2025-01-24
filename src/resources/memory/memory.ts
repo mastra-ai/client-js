@@ -4,8 +4,8 @@ import { APIResource } from '../../resource';
 import * as Core from '../../core';
 import * as StatusAPI from './status';
 import { Status } from './status';
-import * as ThreadsAPI from './threads';
-import { Threads } from './threads';
+import * as ThreadsAPI from './threads/threads';
+import { ThreadToolResultParams, ThreadUpdateParams, Threads } from './threads/threads';
 
 export class Memory extends APIResource {
   status: StatusAPI.Status = new StatusAPI.Status(this._client);
@@ -35,5 +35,9 @@ export declare namespace Memory {
 
   export { Status as Status };
 
-  export { Threads as Threads };
+  export {
+    Threads as Threads,
+    type ThreadUpdateParams as ThreadUpdateParams,
+    type ThreadToolResultParams as ThreadToolResultParams,
+  };
 }
