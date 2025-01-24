@@ -2,4 +2,4 @@
 
 export { Memory, type MemorySaveMessagesParams } from './memory';
 export { Status } from './status';
-export { Threads } from './threads';
+export { Threads, type ThreadUpdateParams, type ThreadToolResultParams } from './threads/index';
