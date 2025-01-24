@@ -39,14 +39,16 @@ export class Agents extends APIResource {
   /**
    * Stream a response from an agent
    */
-  stream(agentId: string, body: AgentStreamParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  stream(agentId: string, body: AgentStreamParams, options?: Core.RequestOptions): Core.APIPromise<string> {
     return this._client.post(`/api/agents/${agentId}/stream`, {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: { Accept: 'text/x-unknown', ...options?.headers },
     });
   }
 }
+
+export type AgentStreamResponse = Core.Uploadable;
 
 export interface AgentGenerateParams {
   messages: Array<unknown>;
@@ -71,7 +73,11 @@ export interface AgentStreamParams {
 Agents.Tools = Tools;
 
 export declare namespace Agents {
-  export { type AgentGenerateParams as AgentGenerateParams, type AgentStreamParams as AgentStreamParams };
+  export {
+    type AgentStreamResponse as AgentStreamResponse,
+    type AgentGenerateParams as AgentGenerateParams,
+    type AgentStreamParams as AgentStreamParams,
+  };
 
   export { Tools as Tools, type ToolExecuteParams as ToolExecuteParams };
 }
