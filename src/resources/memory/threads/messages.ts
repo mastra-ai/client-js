@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../../resource';
+import * as Core from '../../../core';
 
 export class Messages extends APIResource {
   /**
@@ -9,6 +9,16 @@ export class Messages extends APIResource {
    */
   list(threadId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.get(`/api/memory/threads/${threadId}/messages`, {
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
+
+  /**
+   * Get context window for a thread
+   */
+  contextWindow(threadId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.get(`/api/memory/threads/${threadId}/context-window`, {
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
     });

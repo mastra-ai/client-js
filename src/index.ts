@@ -10,11 +10,6 @@ import { SyncExecuteParams, Syncs } from './resources/syncs';
 import { System } from './resources/system';
 import { WorkflowExecuteParams, Workflows } from './resources/workflows';
 import { AgentGenerateParams, AgentStreamParams, Agents } from './resources/agents/agents';
-import {
-  MemoryThreadToolResultParams,
-  MemoryThreadUpdateParams,
-  MemoryThreads,
-} from './resources/memory-threads/memory-threads';
 import { Memory, MemorySaveMessagesParams } from './resources/memory/memory';
 import { ToolExecuteParams, Tools } from './resources/tools/tools';
 
@@ -113,7 +108,6 @@ export class MastraClient extends Core.APIClient {
   system: API.System = new API.System(this);
   agents: API.Agents = new API.Agents(this);
   memory: API.Memory = new API.Memory(this);
-  memoryThreads: API.MemoryThreads = new API.MemoryThreads(this);
   workflows: API.Workflows = new API.Workflows(this);
   syncs: API.Syncs = new API.Syncs(this);
   logs: API.Logs = new API.Logs(this);
@@ -154,7 +148,6 @@ export class MastraClient extends Core.APIClient {
 MastraClient.System = System;
 MastraClient.Agents = Agents;
 MastraClient.Memory = Memory;
-MastraClient.MemoryThreads = MemoryThreads;
 MastraClient.Workflows = Workflows;
 MastraClient.Syncs = Syncs;
 MastraClient.Logs = Logs;
@@ -171,12 +164,6 @@ export declare namespace MastraClient {
   };
 
   export { Memory as Memory, type MemorySaveMessagesParams as MemorySaveMessagesParams };
-
-  export {
-    MemoryThreads as MemoryThreads,
-    type MemoryThreadUpdateParams as MemoryThreadUpdateParams,
-    type MemoryThreadToolResultParams as MemoryThreadToolResultParams,
-  };
 
   export { Workflows as Workflows, type WorkflowExecuteParams as WorkflowExecuteParams };
 
