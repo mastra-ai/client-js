@@ -28,7 +28,7 @@ import Mastra from '@mastra/client-js';
 const client = new Mastra();
 
 async function main() {
-  await client.system.retrieveStatus();
+  await client.agents.list();
 }
 
 main();
@@ -45,7 +45,7 @@ import Mastra from '@mastra/client-js';
 const client = new Mastra();
 
 async function main() {
-  await client.system.retrieveStatus();
+  await client.agents.list();
 }
 
 main();
@@ -62,7 +62,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const response = await client.system.retrieveStatus().catch(async (err) => {
+  const response = await client.agents.list().catch(async (err) => {
     if (err instanceof Mastra.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -105,7 +105,7 @@ const client = new Mastra({
 });
 
 // Or, configure per-request:
-await client.system.retrieveStatus({
+await client.agents.list({
   maxRetries: 5,
 });
 ```
@@ -122,7 +122,7 @@ const client = new Mastra({
 });
 
 // Override per-request:
-await client.system.retrieveStatus({
+await client.agents.list({
   timeout: 5 * 1000,
 });
 ```
@@ -143,11 +143,11 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Mastra();
 
-const response = await client.system.retrieveStatus().asResponse();
+const response = await client.agents.list().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: result, response: raw } = await client.system.retrieveStatus().withResponse();
+const { data: result, response: raw } = await client.agents.list().withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(result);
 ```
@@ -253,7 +253,7 @@ const client = new Mastra({
 });
 
 // Override per-request:
-await client.system.retrieveStatus({
+await client.agents.list({
   httpAgent: new http.Agent({ keepAlive: false }),
 });
 ```
