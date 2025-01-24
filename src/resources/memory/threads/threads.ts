@@ -60,6 +60,16 @@ export class Threads extends APIResource {
   }
 
   /**
+   * Get context window for a thread
+   */
+  contextWindow(threadId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.get(`/api/memory/threads/${threadId}/context-window`, {
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
+
+  /**
    * Get tool execution result for a thread
    */
   toolResult(
