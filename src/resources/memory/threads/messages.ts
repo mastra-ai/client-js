@@ -13,14 +13,4 @@ export class Messages extends APIResource {
       headers: { Accept: '*/*', ...options?.headers },
     });
   }
-
-  /**
-   * Get context window for a thread
-   */
-  contextWindow(threadId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.get(`/api/memory/threads/${threadId}/context-window`, {
-      ...options,
-      headers: { Accept: '*/*', ...options?.headers },
-    });
-  }
 }
