@@ -110,6 +110,7 @@ export class Mastra extends Core.APIClient {
     this._options = options;
   }
 
+  system: API.System = new API.System(this);
   agents: API.Agents = new API.Agents(this);
   memory: API.Memory = new API.Memory(this);
   memoryThreads: API.MemoryThreads = new API.MemoryThreads(this);
@@ -117,7 +118,6 @@ export class Mastra extends Core.APIClient {
   syncs: API.Syncs = new API.Syncs(this);
   logs: API.Logs = new API.Logs(this);
   tools: API.Tools = new API.Tools(this);
-  system: API.System = new API.System(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -151,6 +151,7 @@ export class Mastra extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
+Mastra.System = System;
 Mastra.Agents = Agents;
 Mastra.Memory = Memory;
 Mastra.MemoryThreads = MemoryThreads;
@@ -158,9 +159,10 @@ Mastra.Workflows = Workflows;
 Mastra.Syncs = Syncs;
 Mastra.Logs = Logs;
 Mastra.Tools = Tools;
-Mastra.System = System;
 export declare namespace Mastra {
   export type RequestOptions = Core.RequestOptions;
+
+  export { System as System };
 
   export {
     Agents as Agents,
@@ -183,8 +185,6 @@ export declare namespace Mastra {
   export { Logs as Logs };
 
   export { Tools as Tools, type ToolExecuteParams as ToolExecuteParams };
-
-  export { System as System };
 }
 
 export { toFile, fileFromPath } from './uploads';
