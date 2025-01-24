@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Mastra from '@mastra/client-js';
+import MastraClient from '@mastra/client-js';
 import { Response } from 'node-fetch';
 
-const client = new Mastra({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
+const client = new MastraClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource memoryThreads', () => {
   test('update: only required params', async () => {
@@ -36,7 +36,7 @@ describe('resource memoryThreads', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.memoryThreads.delete('threadId', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Mastra.NotFoundError);
+    ).rejects.toThrow(MastraClient.NotFoundError);
   });
 
   test('toolResult: only required params', async () => {
