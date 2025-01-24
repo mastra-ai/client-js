@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Mastra from '@mastra/client-js';
+import MastraClient from '@mastra/client-js';
 import { Response } from 'node-fetch';
 
-const client = new Mastra({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
+const client = new MastraClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource threads', () => {
   test('create', async () => {
@@ -20,7 +20,7 @@ describe('resource threads', () => {
   test('create: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(client.memory.threads.create({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Mastra.NotFoundError,
+      MastraClient.NotFoundError,
     );
   });
 
@@ -39,7 +39,7 @@ describe('resource threads', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.memory.threads.retrieve('threadId', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Mastra.NotFoundError);
+    ).rejects.toThrow(MastraClient.NotFoundError);
   });
 
   test('list', async () => {
@@ -56,7 +56,7 @@ describe('resource threads', () => {
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(client.memory.threads.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Mastra.NotFoundError,
+      MastraClient.NotFoundError,
     );
   });
 });
