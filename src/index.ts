@@ -9,7 +9,12 @@ import { Logs } from './resources/logs';
 import { SyncExecuteParams, Syncs } from './resources/syncs';
 import { System } from './resources/system';
 import { WorkflowExecuteParams, Workflows } from './resources/workflows';
-import { AgentGenerateParams, AgentStreamParams, Agents } from './resources/agents/agents';
+import {
+  AgentGenerateParams,
+  AgentStreamParams,
+  AgentStreamResponse,
+  Agents,
+} from './resources/agents/agents';
 import { Memory, MemorySaveMessagesParams } from './resources/memory/memory';
 import { ToolExecuteParams, Tools } from './resources/tools/tools';
 
@@ -159,6 +164,7 @@ export declare namespace MastraClient {
 
   export {
     Agents as Agents,
+    type AgentStreamResponse as AgentStreamResponse,
     type AgentGenerateParams as AgentGenerateParams,
     type AgentStreamParams as AgentStreamParams,
   };

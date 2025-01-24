@@ -6,12 +6,16 @@ Methods:
 
 # Agents
 
+Types:
+
+- <code><a href="./src/resources/agents/agents.ts">AgentStreamResponse</a></code>
+
 Methods:
 
 - <code title="get /api/agents/{agentId}">client.agents.<a href="./src/resources/agents/agents.ts">retrieve</a>(agentId) -> void</code>
 - <code title="get /api/agents">client.agents.<a href="./src/resources/agents/agents.ts">list</a>() -> void</code>
 - <code title="post /api/agents/{agentId}/generate">client.agents.<a href="./src/resources/agents/agents.ts">generate</a>(agentId, { ...params }) -> void</code>
-- <code title="post /api/agents/{agentId}/stream">client.agents.<a href="./src/resources/agents/agents.ts">stream</a>(agentId, { ...params }) -> void</code>
+- <code title="post /api/agents/{agentId}/stream">client.agents.<a href="./src/resources/agents/agents.ts">stream</a>(agentId, { ...params }) -> string</code>
 
 ## Tools
 
