@@ -1,3 +1,9 @@
+# System
+
+Methods:
+
+- <code title="get /api">client.system.<a href="./src/resources/system.ts">retrieveStatus</a>() -> void</code>
+
 # Agents
 
 Methods:
@@ -87,9 +93,3 @@ Methods:
 Methods:
 
 - <code title="get /api/tools/{toolId}/result/{resultId}">client.tools.result.<a href="./src/resources/tools/result.ts">retrieve</a>(toolId, resultId) -> void</code>
-
-# System
-
-Methods:
-
-- <code title="get /api">client.system.<a href="./src/resources/system.ts">retrieveStatus</a>() -> void</code>
