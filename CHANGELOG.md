@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2025-01-24)
+
+Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/mastra-ai/client-js/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
+
+### Features
+
+* **api:** update via SDK Studio ([#9](https://github.com/mastra-ai/client-js/issues/9)) ([b66279a](https://github.com/mastra-ai/client-js/commit/b66279a9a92618d0eab74fdb628fe65d70f4a14c))
+
 ## 0.1.0-alpha.1 (2025-01-24)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0-alpha.1](https://github.com/mastra-ai/client-js/compare/v0.0.1-alpha.0...v0.1.0-alpha.1)
