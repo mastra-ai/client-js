@@ -1,4 +1,4 @@
-import { MastraClient } from '../client';
+import type { MastraClient } from '../client';
 import type {
     GetAgentResponse,
     GetEvalsByAgentIdResponse,
