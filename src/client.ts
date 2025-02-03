@@ -52,11 +52,6 @@ export class MastraClient {
         throw lastError;
     }
 
-    // System endpoints
-    public readonly system = {
-        retrieveStatus: () => this.request('/api'),
-    };
-
     // Agents endpoints
     public getAgents() {
         return this.request('/api/agents');
