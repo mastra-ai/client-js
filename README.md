@@ -16,9 +16,6 @@ import { MastraClient } from '@mastra/client';
 // Initialize the client
 const client = new MastraClient({
     baseUrl: 'http://localhost:4111',  // Your Mastra API endpoint
-    headers: {
-        'Authorization': 'Bearer your-api-key'
-    }
 });
 
 // Example: Working with an Agent
