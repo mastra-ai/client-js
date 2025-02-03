@@ -1,7 +1,5 @@
 import { ClientOptions, RequestOptions } from './types';
-import { Agent, MemoryThread, Tool } from './resources';
-import { Workflow } from './resources/workflow';
-import { Vector } from './resources/vector';
+import { Agent, MemoryThread, Tool, Workflow, Vector } from './resources';
 
 export class MastraClient {
     private readonly baseUrl: string;
@@ -110,6 +108,11 @@ export class MastraClient {
         return new Workflow(this, workflowId);
     }
 
+    // Vector endpoints
+    public getVector(vectorName: string) {
+        return new Vector(this, vectorName);
+    }
+
     // Logs endpoints
     public getLogs() {
         return this.request('/api/logs');
@@ -117,10 +120,5 @@ export class MastraClient {
 
     public getLog(runId: string) {
         return this.request(`/api/logs/${runId}`);
-    }
-
-    // Vector endpoints
-    public getVector(vectorName: string) {
-        return new Vector(this, vectorName);
     }
 } 
