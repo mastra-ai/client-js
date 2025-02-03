@@ -2,7 +2,7 @@ import type { ClientOptions, CreateMemoryThreadParams, CreateMemoryThreadRespons
 import { Agent, MemoryThread, Tool, Workflow, Vector } from './resources';
 
 export class MastraClient {
-    private readonly baseUrl: string;
+    readonly baseUrl: string;
     private readonly retries: number;
     private readonly backoffMs: number;
     private readonly maxBackoffMs: number;
