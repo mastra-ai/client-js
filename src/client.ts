@@ -19,6 +19,13 @@ export class MastraClient {
         };
     }
 
+    /**
+     * Makes an HTTP request to the Mastra API
+     * @param path - API endpoint path
+     * @param options - Request options including method, headers, and body
+     * @returns Promise containing the API response
+     * @throws Error if the request fails after all retries
+     */
     async request(path: string, options: RequestOptions = {}): Promise<any> {
         const url = `${this.baseUrl}${path}`;
         let lastError: Error | null = null;
@@ -52,16 +59,28 @@ export class MastraClient {
         throw lastError;
     }
 
-    // Agents endpoints
+    /**
+     * Retrieves all available agents
+     * @returns Promise containing map of agent IDs to agent details
+     */
     public getAgents(): Promise<Record<string, GetAgentResponse>> {
         return this.request('/api/agents');
     }
 
+    /**
+     * Gets an agent instance by ID
+     * @param agentId - ID of the agent to retrieve
+     * @returns Agent instance
+     */
     public getAgent(agentId: string) {
         return new Agent(this, agentId);
     }
 
-    // Memory endpoints
+    /**
+     * Retrieves memory threads for a resource
+     * @param params - Parameters containing the resource ID
+     * @returns Promise containing array of memory threads
+     */
     public getMemoryThreads(params: GetMemoryThreadParams): Promise<GetMemoryThreadResponse> {
         return this.request(`/api/memory/threads?resourceid=${params.resourceId}`);
     }
