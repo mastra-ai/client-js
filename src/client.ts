@@ -1,4 +1,4 @@
-import type { ClientOptions, RequestOptions } from './types';
+import type { ClientOptions, GetAgentResponse, RequestOptions } from './types';
 import { Agent, MemoryThread, Tool, Workflow, Vector } from './resources';
 
 export class MastraClient {
@@ -53,7 +53,7 @@ export class MastraClient {
     }
 
     // Agents endpoints
-    public getAgents() {
+    public getAgents(): Promise<Record<string, GetAgentResponse>> {
         return this.request('/api/agents');
     }
 
@@ -62,8 +62,8 @@ export class MastraClient {
     }
 
     // Memory endpoints
-    public getMemoryThreads() {
-        return this.request('/api/memory/threads');
+    public getMemoryThreads({ resourceId }: { resourceId: string }) {
+        return this.request(`/api/memory/threads?resourceid=${resourceId}`);
     }
 
     public createMemoryThread() {

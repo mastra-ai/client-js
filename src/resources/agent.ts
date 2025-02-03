@@ -1,4 +1,13 @@
 import { MastraClient } from '../client';
+import type {
+    GetAgentResponse,
+    GetEvalsByAgentIdResponse,
+    GetToolResponse,
+} from '../types';
+import type {
+    GenerateReturn,
+    StreamReturn,
+} from '@mastra/core';
 
 export class AgentTool {
     constructor(
@@ -7,7 +16,7 @@ export class AgentTool {
         private toolId: string
     ) { }
 
-    execute(params: any) {
+    execute(params: Record<string, any>): Promise<Record<string, any>> {
         return this.client.request(`/api/agents/${this.agentId}/tools/${this.toolId}/execute`, {
             method: 'POST',
             body: params,
@@ -21,25 +30,25 @@ export class Agent {
         private agentId: string
     ) { }
 
-    retrieve() {
+    details(): Promise<GetAgentResponse> {
         return this.client.request(`/api/agents/${this.agentId}`);
     }
 
-    generate(params: any) {
+    generate<T>(params: any): Promise<GenerateReturn<T>> {
         return this.client.request(`/api/agents/${this.agentId}/generate`, {
             method: 'POST',
             body: params,
         });
     }
 
-    stream(params: any) {
+    stream<T>(params: any): Promise<StreamReturn<T>> {
         return this.client.request(`/api/agents/${this.agentId}/generate`, {
             method: 'POST',
             body: { ...params, stream: true },
         });
     }
 
-    getTool(toolId: string) {
-        return new AgentTool(this.client, this.agentId, toolId);
+    getTool(toolId: string): Promise<GetToolResponse> {
+        return this.client.request(`/api/agents/${this.agentId}/tools/${toolId}`);
     }
 } 

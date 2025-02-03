@@ -8,4 +8,3 @@ const client = new MastraClient({
         'Authorization': `Bearer ${process.env.MASTRA_API_KEY}`
     }
 });
-

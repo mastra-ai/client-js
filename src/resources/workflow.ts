@@ -6,7 +6,7 @@ export class Workflow {
         private workflowId: string
     ) { }
 
-    retrieve() {
+    details() {
         return this.client.request(`/api/workflows/${this.workflowId}`);
     }
 

@@ -21,6 +21,9 @@
     "dev": "tsup-node src/index.ts --format esm --dts --clean --treeshake --watch",
     "test": "vitest run"
   },
+  "dependencies": {
+    "@mastra/core": "^0.2.0-alpha.83"
+  },
   "devDependencies": {
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-typescript": "^7.26.0",

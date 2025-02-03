@@ -6,7 +6,7 @@ export class Vector {
         private vectorName: string
     ) { }
 
-    retrieve(indexName: string) {
+    details(indexName: string) {
         return this.client.request(`/api/vector/${this.vectorName}/indexes/${indexName}`);
     }
 

@@ -6,7 +6,7 @@ export class Tool {
         private toolId: string
     ) { }
 
-    retrieve() {
+    details() {
         return this.client.request(`/api/tools/${this.toolId}`);
     }
 
