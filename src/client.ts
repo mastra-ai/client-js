@@ -1,4 +1,4 @@
-import { ClientOptions, RequestOptions } from './types';
+import type { ClientOptions, RequestOptions } from './types';
 import { Agent, MemoryThread, Tool, Workflow, Vector } from './resources';
 
 export class MastraClient {
