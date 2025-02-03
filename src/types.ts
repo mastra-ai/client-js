@@ -1,3 +1,4 @@
+import type { StepAction, StepGraph } from "@mastra/core/workflows";
 
 
 export interface ClientOptions {
@@ -30,4 +31,12 @@ export interface GetToolResponse {
     description: string;
     inputSchema: string;
     outputSchema: string;
+}
+
+export interface GetWorkflowResponse {
+    name: string;
+    triggerSchema: string;
+    steps: Record<string, StepAction<any, any, any, any>>;
+    stepGraph: StepGraph
+    stepSubscriberGraph: Record<string, StepGraph>
 }

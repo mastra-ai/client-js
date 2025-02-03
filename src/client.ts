@@ -1,4 +1,4 @@
-import type { ClientOptions, GetAgentResponse, RequestOptions } from './types';
+import type { ClientOptions, GetAgentResponse, GetToolResponse, GetWorkflowResponse, RequestOptions } from './types';
 import { Agent, MemoryThread, Tool, Workflow, Vector } from './resources';
 
 export class MastraClient {
@@ -86,7 +86,7 @@ export class MastraClient {
     }
 
     // Tools endpoints
-    public getTools() {
+    public getTools(): Promise<Record<string, GetToolResponse>> {
         return this.request('/api/tools');
     }
 
@@ -95,7 +95,7 @@ export class MastraClient {
     }
 
     // Workflows endpoints
-    public getWorkflows() {
+    public getWorkflows(): Promise<Record<string, GetWorkflowResponse>> {
         return this.request('/api/workflows');
     }
 
