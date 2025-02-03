@@ -1,4 +1,4 @@
-import type { MessageType, AiMessageType, CoreMessage, QueryResult, StepAction, StepGraph, StorageThreadType } from "@mastra/core";
+import type { MessageType, AiMessageType, CoreMessage, QueryResult, StepAction, StepGraph, StorageThreadType, BaseLogMessage } from "@mastra/core";
 
 
 export interface ClientOptions {
@@ -103,3 +103,14 @@ export interface GetMemoryThreadMessagesResponse {
     messages: CoreMessage[];
     uiMessages: AiMessageType[];
 }
+
+export interface GetLogsParams {
+    transportId: string;
+}
+
+export interface GetLogParams {
+    runId: string;
+    transportId: string;
+}
+
+export type GetLogsResponse = BaseLogMessage[]

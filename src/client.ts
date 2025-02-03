@@ -1,4 +1,4 @@
-import type { ClientOptions, CreateMemoryThreadParams, CreateMemoryThreadResponse, GetAgentResponse, GetMemoryThreadParams, GetMemoryThreadResponse, GetToolResponse, GetWorkflowResponse, RequestOptions, SaveMessageToMemoryParams, SaveMessageToMemoryResponse } from './types';
+import type { ClientOptions, CreateMemoryThreadParams, CreateMemoryThreadResponse, GetAgentResponse, GetLogParams, GetLogsParams, GetLogsResponse, GetMemoryThreadParams, GetMemoryThreadResponse, GetToolResponse, GetWorkflowResponse, RequestOptions, SaveMessageToMemoryParams, SaveMessageToMemoryResponse } from './types';
 import { Agent, MemoryThread, Tool, Workflow, Vector } from './resources';
 
 export class MastraClient {
@@ -128,11 +128,11 @@ export class MastraClient {
     }
 
     // Logs endpoints
-    public getLogs() {
+    public getLogs(params: GetLogsParams): Promise<GetLogsResponse> {
         return this.request('/api/logs');
     }
 
-    public getLog(runId: string) {
-        return this.request(`/api/logs/${runId}`);
+    public getLog(params: GetLogParams): Promise<GetLogsResponse> {
+        return this.request(`/api/logs/${params.runId}`);
     }
 } 
