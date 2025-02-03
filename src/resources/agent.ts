@@ -51,4 +51,12 @@ export class Agent {
     getTool(toolId: string): Promise<GetToolResponse> {
         return this.client.request(`/api/agents/${this.agentId}/tools/${toolId}`);
     }
+
+    evals(): Promise<GetEvalsByAgentIdResponse> {
+        return this.client.request(`/api/agents/${this.agentId}/evals`);
+    }
+
+    liveEvals(): Promise<GetEvalsByAgentIdResponse> {
+        return this.client.request(`/api/agents/${this.agentId}/evals/live`);
+    }
 } 

@@ -23,7 +23,7 @@ export interface GetAgentResponse {
 }
 
 export interface GetEvalsByAgentIdResponse extends GetAgentResponse {
-    evals: string[];
+    evals: any[];
 }
 
 export interface GetToolResponse {
