@@ -1,4 +1,5 @@
 import type { MastraClient } from '../client';
+import type { CreateIndexParams, GetVectorIndexResponse, QueryVectorParams, QueryVectorResponse, UpsertVectorParams } from '../types';
 
 export class Vector {
     constructor(
@@ -6,50 +7,35 @@ export class Vector {
         private vectorName: string
     ) { }
 
-    details(indexName: string) {
+    details(indexName: string): Promise<GetVectorIndexResponse> {
         return this.client.request(`/api/vector/${this.vectorName}/indexes/${indexName}`);
     }
 
-    delete(indexName: string) {
+    delete(indexName: string): Promise<{ success: boolean }> {
         return this.client.request(`/api/vector/${this.vectorName}/indexes/${indexName}`, {
             method: 'DELETE'
         });
     }
 
-    getIndexes() {
+    getIndexes(): Promise<{ indexes: string[] }> {
         return this.client.request(`/api/vector/${this.vectorName}/indexes`);
     }
 
-    createIndex(params: {
-        indexName: string;
-        dimension: number;
-        metric?: 'cosine' | 'euclidean' | 'dotproduct';
-    }) {
+    createIndex(params: CreateIndexParams): Promise<{ success: boolean }> {
         return this.client.request(`/api/vector/${this.vectorName}/create-index`, {
             method: 'POST',
             body: params
         });
     }
 
-    upsert(params: {
-        indexName: string;
-        vectors: number[][];
-        metadata?: any[];
-        ids?: string[];
-    }) {
+    upsert(params: UpsertVectorParams): Promise<string[]> {
         return this.client.request(`/api/vector/${this.vectorName}/upsert`, {
             method: 'POST',
             body: params
         });
     }
 
-    query(params: {
-        indexName: string;
-        queryVector: number[];
-        topK?: number;
-        filter?: any;
-        includeVector?: boolean;
-    }) {
+    query(params: QueryVectorParams): Promise<QueryVectorResponse> {
         return this.client.request(`/api/vector/${this.vectorName}/query`, {
             method: 'POST',
             body: params

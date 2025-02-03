@@ -1,4 +1,5 @@
-import type { StepAction, StepGraph } from "@mastra/core/workflows";
+import type { QueryResult } from "@mastra/core";
+import type { StepAction, StepGraph } from "@mastra/core/workflows"
 
 
 export interface ClientOptions {
@@ -39,4 +40,34 @@ export interface GetWorkflowResponse {
     steps: Record<string, StepAction<any, any, any, any>>;
     stepGraph: StepGraph
     stepSubscriberGraph: Record<string, StepGraph>
+}
+
+export interface UpsertVectorParams {
+    indexName: string;
+    vectors: number[][];
+    metadata?: Record<string, any>[];
+    ids?: string[];
+}
+export interface CreateIndexParams {
+    indexName: string;
+    dimension: number;
+    metric?: 'cosine' | 'euclidean' | 'dotproduct';
+}
+
+export interface QueryVectorParams {
+    indexName: string;
+    queryVector: number[];
+    topK?: number;
+    filter?: Record<string, any>;
+    includeVector?: boolean;
+}
+
+export interface QueryVectorResponse {
+    results: QueryResult[];
+}
+
+export interface GetVectorIndexResponse {
+    dimension: number;
+    metric: 'cosine' | 'euclidean' | 'dotproduct';
+    count: number;
 }
