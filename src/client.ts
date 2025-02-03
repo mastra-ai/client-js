@@ -1,4 +1,4 @@
-import type { ClientOptions, GetAgentResponse, GetToolResponse, GetWorkflowResponse, RequestOptions } from './types';
+import type { ClientOptions, CreateMemoryThreadParams, CreateMemoryThreadResponse, GetAgentResponse, GetMemoryThreadParams, GetMemoryThreadResponse, GetToolResponse, GetWorkflowResponse, RequestOptions, SaveMessageToMemoryParams, SaveMessageToMemoryResponse } from './types';
 import { Agent, MemoryThread, Tool, Workflow, Vector } from './resources';
 
 export class MastraClient {
@@ -62,26 +62,26 @@ export class MastraClient {
     }
 
     // Memory endpoints
-    public getMemoryThreads({ resourceId }: { resourceId: string }) {
-        return this.request(`/api/memory/threads?resourceid=${resourceId}`);
+    public getMemoryThreads(params: GetMemoryThreadParams): Promise<GetMemoryThreadResponse> {
+        return this.request(`/api/memory/threads?resourceid=${params.resourceId}`);
     }
 
-    public createMemoryThread() {
-        return this.request('/api/memory/threads', { method: 'POST' });
+    public createMemoryThread(params: CreateMemoryThreadParams): Promise<CreateMemoryThreadResponse> {
+        return this.request('/api/memory/threads', { method: 'POST', body: params });
     }
 
     public getMemoryThread(threadId: string) {
         return new MemoryThread(this, threadId);
     }
 
-    public saveMessageToMemory(params: any) {
+    public saveMessageToMemory(params: SaveMessageToMemoryParams): Promise<SaveMessageToMemoryResponse> {
         return this.request('/api/memory/save-messages', {
             method: 'POST',
             body: params,
         });
     }
 
-    public getMemoryStatus() {
+    public getMemoryStatus(): Promise<{ result: boolean }> {
         return this.request('/api/memory/status');
     }
 

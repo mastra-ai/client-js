@@ -17,8 +17,4 @@ export class Tool {
             body: params,
         });
     }
-
-    getResult(resultId: string): Promise<Record<string, any>> {
-        return this.client.request(`/api/tools/${this.toolId}/result/${resultId}`);
-    }
 }

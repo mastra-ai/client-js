@@ -1,5 +1,4 @@
-import type { QueryResult } from "@mastra/core";
-import type { StepAction, StepGraph } from "@mastra/core/workflows"
+import type { MessageType, AiMessageType, CoreMessage, QueryResult, StepAction, StepGraph, StorageThreadType } from "@mastra/core";
 
 
 export interface ClientOptions {
@@ -70,4 +69,37 @@ export interface GetVectorIndexResponse {
     dimension: number;
     metric: 'cosine' | 'euclidean' | 'dotproduct';
     count: number;
+}
+
+export interface SaveMessageToMemoryParams {
+    messages: MessageType[];
+}
+
+export type SaveMessageToMemoryResponse = MessageType[]
+
+export interface CreateMemoryThreadParams {
+    title: string;
+    metadata: Record<string, any>;
+    resourceid: string;
+    threadId: string;
+}
+
+export type CreateMemoryThreadResponse = StorageThreadType
+
+export interface GetMemoryThreadParams {
+    resourceId: string;
+}
+
+export type GetMemoryThreadResponse = StorageThreadType[]
+
+export interface UpdateMemoryThreadParams {
+    title: string;
+    metadata: Record<string, any>;
+    resourceid: string;
+}
+
+
+export interface GetMemoryThreadMessagesResponse {
+    messages: CoreMessage[];
+    uiMessages: AiMessageType[];
 }

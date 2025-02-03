@@ -1,4 +1,6 @@
 import { MastraClient } from '../client';
+import type { StorageThreadType, } from '@mastra/core/memory';
+import type { GetMemoryThreadMessagesResponse, UpdateMemoryThreadParams } from '../types';
 
 export class MemoryThread {
     constructor(
@@ -6,35 +8,24 @@ export class MemoryThread {
         private threadId: string
     ) { }
 
-    get() {
+    get(): Promise<StorageThreadType> {
         return this.client.request(`/api/memory/threads/${this.threadId}`);
     }
 
-    update(params: any) {
+    update(params: UpdateMemoryThreadParams): Promise<StorageThreadType> {
         return this.client.request(`/api/memory/threads/${this.threadId}`, {
             method: 'PATCH',
             body: params,
         });
     }
 
-    delete() {
+    delete(): Promise<{ result: string }> {
         return this.client.request(`/api/memory/threads/${this.threadId}`, {
             method: 'DELETE',
         });
     }
 
-    getContextWindow() {
-        return this.client.request(`/api/memory/threads/${this.threadId}/context-window`);
-    }
-
-    addToolResult(params: any) {
-        return this.client.request(`/api/memory/threads/${this.threadId}/tool-result`, {
-            method: 'POST',
-            body: params,
-        });
-    }
-
-    getMessages() {
+    getMessages(): Promise<GetMemoryThreadMessagesResponse> {
         return this.client.request(`/api/memory/threads/${this.threadId}/messages`);
     }
 } 
