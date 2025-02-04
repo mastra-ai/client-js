@@ -198,13 +198,23 @@ describe('MastraClient Resources', () => {
             };
             mockFetchResponse(mockResponse);
 
-            const result = await agent.generate({ prompt: 'Test prompt' });
+            const result = await agent.generate({
+                messages: [],
+                threadId: 'test-thread',
+                resourceid: 'test-resource',
+                output: {}
+            });
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
                 `${client.baseUrl}/api/agents/test-agent/generate`,
                 expect.objectContaining({
                     method: 'POST',
-                    body: JSON.stringify({ prompt: 'Test prompt' })
+                    body: JSON.stringify({
+                        messages: [],
+                        threadId: 'test-thread',
+                        resourceid: 'test-resource',
+                        output: {}
+                    })
                 })
             );
         });
@@ -215,13 +225,24 @@ describe('MastraClient Resources', () => {
                 chunks: ['chunk1', 'chunk2']
             };
             mockFetchResponse(mockResponse);
-            const result = await agent.stream({ prompt: 'Test prompt' });
+            const result = await agent.stream({
+                messages: [],
+                threadId: 'test-thread',
+                resourceid: 'test-resource',
+                output: undefined
+            });
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
                 `${client.baseUrl}/api/agents/test-agent/generate`,
                 expect.objectContaining({
                     method: 'POST',
-                    body: JSON.stringify({ prompt: 'Test prompt', stream: true })
+                    body: JSON.stringify({
+                        messages: [],
+                        threadId: 'test-thread',
+                        resourceid: 'test-resource',
+                        output: undefined,
+                        stream: true
+                    })
                 })
             );
         });

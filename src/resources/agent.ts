@@ -1,13 +1,16 @@
 import type {
+    GenerateParams,
     GetAgentResponse,
     GetEvalsByAgentIdResponse,
     GetToolResponse,
     RequestFunction,
+    StreamParams,
 } from '../types';
 import type {
     GenerateReturn,
     StreamReturn,
 } from '@mastra/core';
+import type { JSONSchema7 } from 'json-schema';
 
 export class AgentTool {
     constructor(
@@ -48,7 +51,7 @@ export class Agent {
      * @param params - Generation parameters including prompt
      * @returns Promise containing the generated response
      */
-    generate<T>(params: any): Promise<GenerateReturn<T>> {
+    generate<T extends JSONSchema7 | undefined = undefined>(params: GenerateParams<T>): Promise<GenerateReturn<T>> {
         return this.request(`/api/agents/${this.agentId}/generate`, {
             method: 'POST',
             body: params,
@@ -60,7 +63,7 @@ export class Agent {
      * @param params - Stream parameters including prompt
      * @returns Promise containing the streamed response
      */
-    stream<T>(params: any): Promise<StreamReturn<T>> {
+    stream<T extends JSONSchema7 | undefined = undefined>(params: StreamParams<T>): Promise<StreamReturn<T>> {
         return this.request(`/api/agents/${this.agentId}/generate`, {
             method: 'POST',
             body: { ...params, stream: true },

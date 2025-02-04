@@ -25,7 +25,7 @@ async function main() {
     
     // Generate a response
     const response = await agent.generate({
-        prompt: "What's the weather like today?"
+        messages: [{ role: 'user', content: "What's the weather like today?" }],
     });
     
     console.log(response);
