@@ -85,14 +85,29 @@ export class MastraClient {
         return this.request(`/api/memory/threads?resourceid=${params.resourceId}`);
     }
 
+    /**
+     * Creates a new memory thread
+     * @param params - Parameters for creating the memory thread
+     * @returns Promise containing the created memory thread
+     */
     public createMemoryThread(params: CreateMemoryThreadParams): Promise<CreateMemoryThreadResponse> {
         return this.request('/api/memory/threads', { method: 'POST', body: params });
     }
 
+    /**
+     * Gets a memory thread instance by ID
+     * @param threadId - ID of the memory thread to retrieve
+     * @returns MemoryThread instance
+     */
     public getMemoryThread(threadId: string) {
         return new MemoryThread(this, threadId);
     }
 
+    /**
+     * Saves messages to memory
+     * @param params - Parameters containing messages to save
+     * @returns Promise containing the saved messages
+     */
     public saveMessageToMemory(params: SaveMessageToMemoryParams): Promise<SaveMessageToMemoryResponse> {
         return this.request('/api/memory/save-messages', {
             method: 'POST',
@@ -100,39 +115,72 @@ export class MastraClient {
         });
     }
 
+    /**
+     * Gets the status of the memory system
+     * @returns Promise containing memory system status
+     */
     public getMemoryStatus(): Promise<{ result: boolean }> {
         return this.request('/api/memory/status');
     }
 
-    // Tools endpoints
+    /**
+     * Retrieves all available tools
+     * @returns Promise containing map of tool IDs to tool details
+     */
     public getTools(): Promise<Record<string, GetToolResponse>> {
         return this.request('/api/tools');
     }
 
+    /**
+     * Gets a tool instance by ID
+     * @param toolId - ID of the tool to retrieve
+     * @returns Tool instance
+     */
     public getTool(toolId: string) {
         return new Tool(this, toolId);
     }
 
-    // Workflows endpoints
+    /**
+     * Retrieves all available workflows
+     * @returns Promise containing map of workflow IDs to workflow details
+     */
     public getWorkflows(): Promise<Record<string, GetWorkflowResponse>> {
         return this.request('/api/workflows');
     }
 
+    /**
+     * Gets a workflow instance by ID
+     * @param workflowId - ID of the workflow to retrieve
+     * @returns Workflow instance
+     */
     public getWorkflow(workflowId: string) {
         return new Workflow(this, workflowId);
     }
 
-    // Vector endpoints
+    /**
+     * Gets a vector instance by name
+     * @param vectorName - Name of the vector to retrieve
+     * @returns Vector instance
+     */
     public getVector(vectorName: string) {
         return new Vector(this, vectorName);
     }
 
-    // Logs endpoints
+    /**
+     * Retrieves logs
+     * @param params - Parameters for filtering logs
+     * @returns Promise containing array of log messages
+     */
     public getLogs(params: GetLogsParams): Promise<GetLogsResponse> {
-        return this.request('/api/logs');
+        return this.request(`/api/logs?transportId=${params.transportId}`);
     }
 
-    public getLog(params: GetLogParams): Promise<GetLogsResponse> {
-        return this.request(`/api/logs/${params.runId}`);
+    /**
+     * Gets logs for a specific run
+     * @param params - Parameters containing run ID to retrieve
+     * @returns Promise containing array of log messages
+     */
+    public getLogForRun(params: GetLogParams): Promise<GetLogsResponse> {
+        return this.request(`/api/logs/${params.runId}?transportId=${params.transportId}`);
     }
 } 

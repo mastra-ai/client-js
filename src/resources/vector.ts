@@ -9,8 +9,8 @@ export class Vector {
 
     /**
      * Retrieves details about a specific vector index
-     * @param indexName - The name of the index to get details for
-     * @returns Promise containing the vector index details including dimension, metric, and count
+     * @param indexName - Name of the index to get details for
+     * @returns Promise containing vector index details
      */
     details(indexName: string): Promise<GetVectorIndexResponse> {
         return this.client.request(`/api/vector/${this.vectorName}/indexes/${indexName}`);
@@ -18,8 +18,8 @@ export class Vector {
 
     /**
      * Deletes a vector index
-     * @param indexName - The name of the index to delete
-     * @returns Promise indicating success of deletion
+     * @param indexName - Name of the index to delete
+     * @returns Promise indicating deletion success
      */
     delete(indexName: string): Promise<{ success: boolean }> {
         return this.client.request(`/api/vector/${this.vectorName}/indexes/${indexName}`, {
@@ -28,7 +28,7 @@ export class Vector {
     }
 
     /**
-     * Retrieves a list of all vector indexes
+     * Retrieves a list of all available indexes
      * @returns Promise containing array of index names
      */
     getIndexes(): Promise<{ indexes: string[] }> {
@@ -37,8 +37,8 @@ export class Vector {
 
     /**
      * Creates a new vector index
-     * @param params - Parameters for creating the index including name, dimension, and metric
-     * @returns Promise indicating success of creation
+     * @param params - Parameters for index creation including dimension and metric
+     * @returns Promise indicating creation success
      */
     createIndex(params: CreateIndexParams): Promise<{ success: boolean }> {
         return this.client.request(`/api/vector/${this.vectorName}/create-index`, {
@@ -61,7 +61,7 @@ export class Vector {
 
     /**
      * Queries vectors in an index
-     * @param params - Query parameters including the query vector and search options
+     * @param params - Query parameters including query vector and search options
      * @returns Promise containing query results
      */
     query(params: QueryVectorParams): Promise<QueryVectorResponse> {

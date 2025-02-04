@@ -19,7 +19,7 @@ export class AgentTool {
     /**
      * Executes a specific tool for an agent
      * @param params - Parameters required for tool execution
-     * @returns Promise containing the tool execution results
+     * @returns Promise containing tool execution results
      */
     execute(params: Record<string, any>): Promise<Record<string, any>> {
         return this.client.request(`/api/agents/${this.agentId}/tools/${this.toolId}/execute`, {
@@ -37,7 +37,7 @@ export class Agent {
 
     /**
      * Retrieves details about the agent
-     * @returns Promise containing agent details including name, model, and instructions
+     * @returns Promise containing agent details including model and instructions
      */
     details(): Promise<GetAgentResponse> {
         return this.client.request(`/api/agents/${this.agentId}`);
@@ -45,7 +45,7 @@ export class Agent {
 
     /**
      * Generates a response from the agent
-     * @param params - Parameters for generation
+     * @param params - Generation parameters including prompt
      * @returns Promise containing the generated response
      */
     generate<T>(params: any): Promise<GenerateReturn<T>> {
@@ -57,7 +57,7 @@ export class Agent {
 
     /**
      * Streams a response from the agent
-     * @param params - Parameters for streaming
+     * @param params - Stream parameters including prompt
      * @returns Promise containing the streamed response
      */
     stream<T>(params: any): Promise<StreamReturn<T>> {
