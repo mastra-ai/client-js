@@ -11,6 +11,8 @@ import type {
     StreamReturn,
 } from '@mastra/core';
 import type { JSONSchema7 } from 'json-schema';
+import { ZodSchema } from "zod";
+import { zodToJsonSchema } from 'zod-to-json-schema';
 
 export class AgentTool {
     constructor(
@@ -51,10 +53,15 @@ export class Agent {
      * @param params - Generation parameters including prompt
      * @returns Promise containing the generated response
      */
-    generate<T extends JSONSchema7 | undefined = undefined>(params: GenerateParams<T>): Promise<GenerateReturn<T>> {
+    generate<T extends JSONSchema7 | ZodSchema | undefined = undefined>(params: GenerateParams<T>): Promise<GenerateReturn<T>> {
+        const processedParams = {
+            ...params,
+            output: params.output instanceof ZodSchema ? zodToJsonSchema(params.output) : params.output
+        };
+
         return this.request(`/api/agents/${this.agentId}/generate`, {
             method: 'POST',
-            body: params,
+            body: processedParams,
         });
     }
 
@@ -63,10 +70,16 @@ export class Agent {
      * @param params - Stream parameters including prompt
      * @returns Promise containing the streamed response
      */
-    stream<T extends JSONSchema7 | undefined = undefined>(params: StreamParams<T>): Promise<StreamReturn<T>> {
+    stream<T extends JSONSchema7 | ZodSchema | undefined = undefined>(params: StreamParams<T>): Promise<StreamReturn<T>> {
+        const processedParams = {
+            ...params,
+            output: params.output instanceof ZodSchema ? zodToJsonSchema(params.output) : params.output,
+            stream: true
+        };
+
         return this.request(`/api/agents/${this.agentId}/generate`, {
             method: 'POST',
-            body: { ...params, stream: true },
+            body: processedParams,
         });
     }
 

@@ -1,5 +1,6 @@
 import type { MessageType, AiMessageType, CoreMessage, QueryResult, StepAction, StepGraph, StorageThreadType, BaseLogMessage, OutputType } from "@mastra/core";
 import type { JSONSchema7 } from 'json-schema';
+import { ZodSchema } from "zod";
 
 export interface ClientOptions {
     baseUrl: string;
@@ -22,14 +23,14 @@ export interface GetAgentResponse {
     tools: Record<string, GetToolResponse>;
 }
 
-export interface GenerateParams<T extends JSONSchema7 | undefined = undefined> {
+export interface GenerateParams<T extends JSONSchema7 | ZodSchema | undefined = undefined> {
     messages: MessageType[];
     threadId?: string;
     resourceid?: string;
     output?: OutputType | T
 }
 
-export interface StreamParams<T extends JSONSchema7 | undefined = undefined> {
+export interface StreamParams<T extends JSONSchema7 | ZodSchema | undefined = undefined> {
     messages: MessageType[];
     threadId?: string;
     resourceid?: string;
