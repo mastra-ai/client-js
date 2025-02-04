@@ -1,8 +1,8 @@
-import type { MastraClient } from '../client';
 import type {
     GetAgentResponse,
     GetEvalsByAgentIdResponse,
     GetToolResponse,
+    RequestFunction,
 } from '../types';
 import type {
     GenerateReturn,
@@ -11,7 +11,7 @@ import type {
 
 export class AgentTool {
     constructor(
-        private client: MastraClient,
+        private request: RequestFunction,
         private agentId: string,
         private toolId: string
     ) { }
@@ -22,7 +22,7 @@ export class AgentTool {
      * @returns Promise containing tool execution results
      */
     execute(params: Record<string, any>): Promise<Record<string, any>> {
-        return this.client.request(`/api/agents/${this.agentId}/tools/${this.toolId}/execute`, {
+        return this.request(`/api/agents/${this.agentId}/tools/${this.toolId}/execute`, {
             method: 'POST',
             body: params,
         });
@@ -31,7 +31,7 @@ export class AgentTool {
 
 export class Agent {
     constructor(
-        private client: MastraClient,
+        private request: RequestFunction,
         private agentId: string
     ) { }
 
@@ -40,7 +40,7 @@ export class Agent {
      * @returns Promise containing agent details including model and instructions
      */
     details(): Promise<GetAgentResponse> {
-        return this.client.request(`/api/agents/${this.agentId}`);
+        return this.request(`/api/agents/${this.agentId}`);
     }
 
     /**
@@ -49,7 +49,7 @@ export class Agent {
      * @returns Promise containing the generated response
      */
     generate<T>(params: any): Promise<GenerateReturn<T>> {
-        return this.client.request(`/api/agents/${this.agentId}/generate`, {
+        return this.request(`/api/agents/${this.agentId}/generate`, {
             method: 'POST',
             body: params,
         });
@@ -61,7 +61,7 @@ export class Agent {
      * @returns Promise containing the streamed response
      */
     stream<T>(params: any): Promise<StreamReturn<T>> {
-        return this.client.request(`/api/agents/${this.agentId}/generate`, {
+        return this.request(`/api/agents/${this.agentId}/generate`, {
             method: 'POST',
             body: { ...params, stream: true },
         });
@@ -73,7 +73,7 @@ export class Agent {
      * @returns Promise containing tool details
      */
     getTool(toolId: string): Promise<GetToolResponse> {
-        return this.client.request(`/api/agents/${this.agentId}/tools/${toolId}`);
+        return this.request(`/api/agents/${this.agentId}/tools/${toolId}`);
     }
 
     /**
@@ -81,7 +81,7 @@ export class Agent {
      * @returns Promise containing agent evaluations
      */
     evals(): Promise<GetEvalsByAgentIdResponse> {
-        return this.client.request(`/api/agents/${this.agentId}/evals`);
+        return this.request(`/api/agents/${this.agentId}/evals`);
     }
 
     /**
@@ -89,6 +89,6 @@ export class Agent {
      * @returns Promise containing live agent evaluations
      */
     liveEvals(): Promise<GetEvalsByAgentIdResponse> {
-        return this.client.request(`/api/agents/${this.agentId}/evals/live`);
+        return this.request(`/api/agents/${this.agentId}/evals/live`);
     }
 } 

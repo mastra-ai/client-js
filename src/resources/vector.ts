@@ -1,9 +1,15 @@
-import type { MastraClient } from '../client';
-import type { CreateIndexParams, GetVectorIndexResponse, QueryVectorParams, QueryVectorResponse, UpsertVectorParams } from '../types';
+import type {
+    CreateIndexParams,
+    GetVectorIndexResponse,
+    QueryVectorParams,
+    QueryVectorResponse,
+    UpsertVectorParams,
+    RequestFunction
+} from '../types';
 
 export class Vector {
     constructor(
-        private client: MastraClient,
+        private request: RequestFunction,
         private vectorName: string
     ) { }
 
@@ -13,7 +19,7 @@ export class Vector {
      * @returns Promise containing vector index details
      */
     details(indexName: string): Promise<GetVectorIndexResponse> {
-        return this.client.request(`/api/vector/${this.vectorName}/indexes/${indexName}`);
+        return this.request(`/api/vector/${this.vectorName}/indexes/${indexName}`);
     }
 
     /**
@@ -22,7 +28,7 @@ export class Vector {
      * @returns Promise indicating deletion success
      */
     delete(indexName: string): Promise<{ success: boolean }> {
-        return this.client.request(`/api/vector/${this.vectorName}/indexes/${indexName}`, {
+        return this.request(`/api/vector/${this.vectorName}/indexes/${indexName}`, {
             method: 'DELETE'
         });
     }
@@ -32,7 +38,7 @@ export class Vector {
      * @returns Promise containing array of index names
      */
     getIndexes(): Promise<{ indexes: string[] }> {
-        return this.client.request(`/api/vector/${this.vectorName}/indexes`);
+        return this.request(`/api/vector/${this.vectorName}/indexes`);
     }
 
     /**
@@ -41,7 +47,7 @@ export class Vector {
      * @returns Promise indicating creation success
      */
     createIndex(params: CreateIndexParams): Promise<{ success: boolean }> {
-        return this.client.request(`/api/vector/${this.vectorName}/create-index`, {
+        return this.request(`/api/vector/${this.vectorName}/create-index`, {
             method: 'POST',
             body: params
         });
@@ -53,7 +59,7 @@ export class Vector {
      * @returns Promise containing array of vector IDs
      */
     upsert(params: UpsertVectorParams): Promise<string[]> {
-        return this.client.request(`/api/vector/${this.vectorName}/upsert`, {
+        return this.request(`/api/vector/${this.vectorName}/upsert`, {
             method: 'POST',
             body: params
         });
@@ -65,7 +71,7 @@ export class Vector {
      * @returns Promise containing query results
      */
     query(params: QueryVectorParams): Promise<QueryVectorResponse> {
-        return this.client.request(`/api/vector/${this.vectorName}/query`, {
+        return this.request(`/api/vector/${this.vectorName}/query`, {
             method: 'POST',
             body: params
         });

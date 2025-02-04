@@ -114,3 +114,8 @@ export interface GetLogParams {
 }
 
 export type GetLogsResponse = BaseLogMessage[]
+
+export type RequestFunction = (
+    path: string,
+    options?: RequestOptions
+) => Promise<any>;

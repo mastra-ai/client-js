@@ -1,10 +1,13 @@
-import { MastraClient } from '../client';
 import type { StorageThreadType } from '@mastra/core/memory';
-import type { GetMemoryThreadMessagesResponse, UpdateMemoryThreadParams } from '../types';
+import type {
+    GetMemoryThreadMessagesResponse,
+    UpdateMemoryThreadParams,
+    RequestFunction
+} from '../types';
 
 export class MemoryThread {
     constructor(
-        private client: MastraClient,
+        private request: RequestFunction,
         private threadId: string
     ) { }
 
@@ -13,7 +16,7 @@ export class MemoryThread {
      * @returns Promise containing thread details including title and metadata
      */
     get(): Promise<StorageThreadType> {
-        return this.client.request(`/api/memory/threads/${this.threadId}`);
+        return this.request(`/api/memory/threads/${this.threadId}`);
     }
 
     /**
@@ -22,7 +25,7 @@ export class MemoryThread {
      * @returns Promise containing updated thread details
      */
     update(params: UpdateMemoryThreadParams): Promise<StorageThreadType> {
-        return this.client.request(`/api/memory/threads/${this.threadId}`, {
+        return this.request(`/api/memory/threads/${this.threadId}`, {
             method: 'PATCH',
             body: params,
         });
@@ -33,7 +36,7 @@ export class MemoryThread {
      * @returns Promise containing deletion result
      */
     delete(): Promise<{ result: string }> {
-        return this.client.request(`/api/memory/threads/${this.threadId}`, {
+        return this.request(`/api/memory/threads/${this.threadId}`, {
             method: 'DELETE',
         });
     }
@@ -43,6 +46,6 @@ export class MemoryThread {
      * @returns Promise containing thread messages and UI messages
      */
     getMessages(): Promise<GetMemoryThreadMessagesResponse> {
-        return this.client.request(`/api/memory/threads/${this.threadId}/messages`);
+        return this.request(`/api/memory/threads/${this.threadId}/messages`);
     }
 } 

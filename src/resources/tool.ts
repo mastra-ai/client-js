@@ -1,9 +1,8 @@
-import type { MastraClient } from '../client';
-import type { GetToolResponse } from '../types';
+import type { GetToolResponse, RequestFunction } from '../types';
 
 export class Tool {
     constructor(
-        private client: MastraClient,
+        private request: RequestFunction,
         private toolId: string
     ) { }
 
@@ -12,7 +11,7 @@ export class Tool {
      * @returns Promise containing tool details including description and schemas
      */
     details(): Promise<GetToolResponse> {
-        return this.client.request(`/api/tools/${this.toolId}`);
+        return this.request(`/api/tools/${this.toolId}`);
     }
 
     /**
@@ -21,7 +20,7 @@ export class Tool {
      * @returns Promise containing the tool execution results
      */
     execute(params: Record<string, any>): Promise<Record<string, any>> {
-        return this.client.request(`/api/tools/${this.toolId}/execute`, {
+        return this.request(`/api/tools/${this.toolId}/execute`, {
             method: 'POST',
             body: params,
         });

@@ -1,9 +1,8 @@
-import type { MastraClient } from '../client';
-import type { GetWorkflowResponse } from '../types';
+import type { GetWorkflowResponse, RequestFunction } from '../types';
 
 export class Workflow {
     constructor(
-        private client: MastraClient,
+        private request: RequestFunction,
         private workflowId: string
     ) { }
 
@@ -12,7 +11,7 @@ export class Workflow {
      * @returns Promise containing workflow details including steps and graphs
      */
     details(): Promise<GetWorkflowResponse> {
-        return this.client.request(`/api/workflows/${this.workflowId}`);
+        return this.request(`/api/workflows/${this.workflowId}`);
     }
 
     /**
@@ -21,7 +20,7 @@ export class Workflow {
      * @returns Promise containing the workflow execution results
      */
     execute(params: Record<string, any>): Promise<Record<string, any>> {
-        return this.client.request(`/api/workflows/${this.workflowId}/execute`, {
+        return this.request(`/api/workflows/${this.workflowId}/execute`, {
             method: 'POST',
             body: params,
         });

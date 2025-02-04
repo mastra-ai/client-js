@@ -73,7 +73,10 @@ export class MastraClient {
      * @returns Agent instance
      */
     public getAgent(agentId: string) {
-        return new Agent(this, agentId);
+        return new Agent(
+            (path: string, options?: RequestOptions) => this.request(path, options),
+            agentId
+        );
     }
 
     /**
@@ -100,7 +103,10 @@ export class MastraClient {
      * @returns MemoryThread instance
      */
     public getMemoryThread(threadId: string) {
-        return new MemoryThread(this, threadId);
+        return new MemoryThread(
+            (path: string, options?: RequestOptions) => this.request(path, options),
+            threadId
+        );
     }
 
     /**
@@ -137,7 +143,10 @@ export class MastraClient {
      * @returns Tool instance
      */
     public getTool(toolId: string) {
-        return new Tool(this, toolId);
+        return new Tool(
+            (path: string, options?: RequestOptions) => this.request(path, options),
+            toolId
+        );
     }
 
     /**
@@ -154,7 +163,10 @@ export class MastraClient {
      * @returns Workflow instance
      */
     public getWorkflow(workflowId: string) {
-        return new Workflow(this, workflowId);
+        return new Workflow(
+            (path: string, options?: RequestOptions) => this.request(path, options),
+            workflowId
+        );
     }
 
     /**
@@ -163,7 +175,10 @@ export class MastraClient {
      * @returns Vector instance
      */
     public getVector(vectorName: string) {
-        return new Vector(this, vectorName);
+        return new Vector(
+            (path: string, options?: RequestOptions) => this.request(path, options),
+            vectorName
+        );
     }
 
     /**
