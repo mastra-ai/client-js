@@ -3,10 +3,15 @@ import type { JSONSchema7 } from 'json-schema';
 import { ZodSchema } from "zod";
 
 export interface ClientOptions {
+    /** Base URL for API requests */
     baseUrl: string;
+    /** Number of retry attempts for failed requests */
     retries?: number;
+    /** Initial backoff time in milliseconds between retries */
     backoffMs?: number;
+    /** Maximum backoff time in milliseconds between retries */
     maxBackoffMs?: number;
+    /** Custom headers to include with requests */
     headers?: Record<string, string>;
 }
 

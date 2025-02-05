@@ -1,10 +1,13 @@
-import type { GetWorkflowResponse, RequestFunction } from '../types';
+import type { GetWorkflowResponse, ClientOptions } from '../types';
+import { BaseResource } from './base';
 
-export class Workflow {
+export class Workflow extends BaseResource {
     constructor(
-        private request: RequestFunction,
+        options: ClientOptions,
         private workflowId: string
-    ) { }
+    ) {
+        super(options);
+    }
 
     /**
      * Retrieves details about the workflow

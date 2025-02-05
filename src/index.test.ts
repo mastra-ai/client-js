@@ -7,26 +7,43 @@ global.fetch = vi.fn();
 
 describe('MastraClient Resources', () => {
     let client: MastraClient;
+    const clientOptions = {
+        baseUrl: 'http://localhost:4111',
+        headers: {
+            'Authorization': 'Bearer test-key'
+        }
+    };
 
     // Helper to mock successful API responses
-    const mockFetchResponse = (data: any) => {
-        (global.fetch as any).mockResolvedValueOnce({
-            ok: true,
-            json: async () => data
-        });
+    const mockFetchResponse = (data: any, options: { isStream?: boolean } = {}) => {
+        if (options.isStream) {
+            const stream = new ReadableStream({
+                start(controller) {
+                    controller.enqueue(new TextEncoder().encode(JSON.stringify(data)));
+                    controller.close();
+                }
+            });
+            (global.fetch as any).mockResolvedValueOnce({
+                ok: true,
+                headers: {
+                    get: (name: string) => name === 'Content-Type' ? 'text/event-stream' : null
+                },
+                body: stream
+            });
+        } else {
+            (global.fetch as any).mockResolvedValueOnce({
+                ok: true,
+                headers: {
+                    get: (name: string) => name === 'Content-Type' ? 'application/json' : null
+                },
+                json: async () => data
+            });
+        }
     };
 
     beforeEach(() => {
-        // Reset mocks
         vi.clearAllMocks();
-
-        // Create fresh client for each test
-        client = new MastraClient({
-            baseUrl: 'http://localhost:4111',
-            headers: {
-                'Authorization': 'Bearer test-key'
-            }
-        });
+        client = new MastraClient(clientOptions);
     });
 
     describe('Vector Resource', () => {
@@ -48,8 +65,10 @@ describe('MastraClient Resources', () => {
             const result = await vector.details('test-index');
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/vector/test-vector/indexes/test-index`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/vector/test-vector/indexes/test-index`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -58,8 +77,11 @@ describe('MastraClient Resources', () => {
             const result = await vector.delete('test-index');
             expect(result).toEqual({ success: true });
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/vector/test-vector/indexes/test-index`,
-                expect.objectContaining({ method: 'DELETE' })
+                `${clientOptions.baseUrl}/api/vector/test-vector/indexes/test-index`,
+                expect.objectContaining({
+                    method: 'DELETE',
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -69,8 +91,10 @@ describe('MastraClient Resources', () => {
             const result = await vector.getIndexes();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/vector/test-vector/indexes`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/vector/test-vector/indexes`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -83,9 +107,10 @@ describe('MastraClient Resources', () => {
             });
             expect(result).toEqual({ success: true });
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/vector/test-vector/create-index`,
+                `${clientOptions.baseUrl}/api/vector/test-vector/create-index`,
                 expect.objectContaining({
                     method: 'POST',
+                    headers: expect.objectContaining(clientOptions.headers),
                     body: JSON.stringify({
                         indexName: 'test-index',
                         dimension: 128,
@@ -106,9 +131,10 @@ describe('MastraClient Resources', () => {
             });
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/vector/test-vector/upsert`,
+                `${clientOptions.baseUrl}/api/vector/test-vector/upsert`,
                 expect.objectContaining({
                     method: 'POST',
+                    headers: expect.objectContaining(clientOptions.headers),
                     body: JSON.stringify({
                         indexName: 'test-index',
                         vectors: [[1, 2], [3, 4]],
@@ -138,9 +164,10 @@ describe('MastraClient Resources', () => {
             });
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/vector/test-vector/query`,
+                `${clientOptions.baseUrl}/api/vector/test-vector/query`,
                 expect.objectContaining({
                     method: 'POST',
+                    headers: expect.objectContaining(clientOptions.headers),
                     body: JSON.stringify({
                         indexName: 'test-index',
                         queryVector: [1, 2],
@@ -170,8 +197,10 @@ describe('MastraClient Resources', () => {
             const result = await client.getAgents();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/agents`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/agents`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -187,8 +216,10 @@ describe('MastraClient Resources', () => {
             const result = await agent.details();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/agents/test-agent`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/agents/test-agent`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -206,9 +237,10 @@ describe('MastraClient Resources', () => {
             });
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/agents/test-agent/generate`,
+                `${clientOptions.baseUrl}/api/agents/test-agent/generate`,
                 expect.objectContaining({
                     method: 'POST',
+                    headers: expect.objectContaining(clientOptions.headers),
                     body: JSON.stringify({
                         messages: [],
                         threadId: 'test-thread',
@@ -220,31 +252,29 @@ describe('MastraClient Resources', () => {
         });
 
         it('should stream responses', async () => {
-            const mockResponse = {
-                stream: true,
-                chunks: ['chunk1', 'chunk2']
-            };
-            mockFetchResponse(mockResponse);
-            const result = await agent.stream({
-                messages: [],
-                threadId: 'test-thread',
-                resourceid: 'test-resource',
-                output: undefined
+            const mockChunk = { content: 'test response' };
+            mockFetchResponse(mockChunk, { isStream: true });
+
+            const response = await agent.stream({
+                messages: [{
+                    role: 'user',
+                    content: 'test',
+                    id: '1',
+                    createdAt: new Date(),
+                    threadId: '1',
+                    type: 'text'
+                }]
             });
-            expect(result).toEqual(mockResponse);
-            expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/agents/test-agent/generate`,
-                expect.objectContaining({
-                    method: 'POST',
-                    body: JSON.stringify({
-                        messages: [],
-                        threadId: 'test-thread',
-                        resourceid: 'test-resource',
-                        output: undefined,
-                        stream: true
-                    })
-                })
-            );
+
+            expect(response).toBeInstanceOf(ReadableStream);
+            const reader = response?.getReader();
+            expect(reader).toBeDefined();
+
+            if (reader) {
+                const { value, done } = await reader.read();
+                expect(done).toBe(false);
+                expect(new TextDecoder().decode(value)).toBe(JSON.stringify(mockChunk));
+            }
         });
 
         it('should get agent tool', async () => {
@@ -256,8 +286,10 @@ describe('MastraClient Resources', () => {
             const result = await agent.getTool('tool1');
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/agents/test-agent/tools/tool1`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/agents/test-agent/tools/tool1`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -270,8 +302,10 @@ describe('MastraClient Resources', () => {
             const result = await agent.evals();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/agents/test-agent/evals`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/agents/test-agent/evals`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -284,8 +318,10 @@ describe('MastraClient Resources', () => {
             const result = await agent.liveEvals();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/agents/test-agent/evals/live`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/agents/test-agent/evals/live`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
     });
@@ -309,8 +345,10 @@ describe('MastraClient Resources', () => {
             const result = await memoryThread.get();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/memory/threads/test-thread`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/memory/threads/test-thread`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -329,9 +367,10 @@ describe('MastraClient Resources', () => {
             });
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/memory/threads/test-thread`,
+                `${clientOptions.baseUrl}/api/memory/threads/test-thread`,
                 expect.objectContaining({
-                    method: 'PATCH'
+                    method: 'PATCH',
+                    headers: expect.objectContaining(clientOptions.headers)
                 })
             );
         });
@@ -342,8 +381,11 @@ describe('MastraClient Resources', () => {
             const result = await memoryThread.delete();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/memory/threads/test-thread`,
-                expect.objectContaining({ method: 'DELETE' })
+                `${clientOptions.baseUrl}/api/memory/threads/test-thread`,
+                expect.objectContaining({
+                    method: 'DELETE',
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -353,8 +395,10 @@ describe('MastraClient Resources', () => {
             const result = await client.getMemoryStatus();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/memory/status`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/memory/status`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -371,9 +415,10 @@ describe('MastraClient Resources', () => {
             const result = await client.saveMessageToMemory({ messages });
             expect(result).toEqual(messages);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/memory/save-messages`,
+                `${clientOptions.baseUrl}/api/memory/save-messages`,
                 expect.objectContaining({
                     method: 'POST',
+                    headers: expect.objectContaining(clientOptions.headers),
                     body: JSON.stringify({ messages })
                 })
             );
@@ -400,8 +445,10 @@ describe('MastraClient Resources', () => {
             const result = await tool.details();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/tools/test-tool`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/tools/test-tool`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -414,9 +461,10 @@ describe('MastraClient Resources', () => {
             const result = await tool.execute({ input: 'test' });
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/tools/test-tool/execute`,
+                `${clientOptions.baseUrl}/api/tools/test-tool/execute`,
                 expect.objectContaining({
                     method: 'POST',
+                    headers: expect.objectContaining(clientOptions.headers),
                     body: JSON.stringify({ input: 'test' })
                 })
             );
@@ -444,8 +492,10 @@ describe('MastraClient Resources', () => {
             const result = await workflow.details();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/workflows/test-workflow`,
-                expect.any(Object)
+                `${clientOptions.baseUrl}/api/workflows/test-workflow`,
+                expect.objectContaining({
+                    headers: expect.objectContaining(clientOptions.headers)
+                })
             );
         });
 
@@ -458,9 +508,10 @@ describe('MastraClient Resources', () => {
             const result = await workflow.execute({ trigger: 'test' });
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${client.baseUrl}/api/workflows/test-workflow/execute`,
+                `${clientOptions.baseUrl}/api/workflows/test-workflow/execute`,
                 expect.objectContaining({
                     method: 'POST',
+                    headers: expect.objectContaining(clientOptions.headers),
                     body: JSON.stringify({ trigger: 'test' })
                 })
             );
@@ -475,6 +526,9 @@ describe('MastraClient Resources', () => {
                 .mockRejectedValueOnce(new Error('Network error'))
                 .mockResolvedValueOnce({
                     ok: true,
+                    headers: {
+                        get: () => 'application/json'
+                    },
                     json: async () => ({ success: true })
                 });
 
@@ -509,6 +563,9 @@ describe('MastraClient Resources', () => {
                 .mockRejectedValueOnce(new Error('Network error'))
                 .mockResolvedValueOnce({
                     ok: true,
+                    headers: {
+                        get: () => 'application/json'
+                    },
                     json: async () => ({ success: true })
                 });
 

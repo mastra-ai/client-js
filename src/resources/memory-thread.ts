@@ -1,15 +1,21 @@
-import type { StorageThreadType } from '@mastra/core/memory';
+import type { StorageThreadType } from '@mastra/core';
 import type {
+    CreateMemoryThreadParams,
     GetMemoryThreadMessagesResponse,
+    GetMemoryThreadResponse,
+    ClientOptions,
+    SaveMessageToMemoryParams,
     UpdateMemoryThreadParams,
-    RequestFunction
 } from '../types';
+import { BaseResource } from './base';
 
-export class MemoryThread {
+export class MemoryThread extends BaseResource {
     constructor(
-        private request: RequestFunction,
+        options: ClientOptions,
         private threadId: string
-    ) { }
+    ) {
+        super(options);
+    }
 
     /**
      * Retrieves the memory thread details

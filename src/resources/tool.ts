@@ -1,10 +1,13 @@
-import type { GetToolResponse, RequestFunction } from '../types';
+import type { GetToolResponse, ClientOptions } from '../types';
+import { BaseResource } from './base';
 
-export class Tool {
+export class Tool extends BaseResource {
     constructor(
-        private request: RequestFunction,
+        options: ClientOptions,
         private toolId: string
-    ) { }
+    ) {
+        super(options);
+    }
 
     /**
      * Retrieves details about the tool

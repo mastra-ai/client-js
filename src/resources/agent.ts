@@ -3,7 +3,7 @@ import type {
     GetAgentResponse,
     GetEvalsByAgentIdResponse,
     GetToolResponse,
-    RequestFunction,
+    ClientOptions,
     StreamParams,
 } from '../types';
 import type {
@@ -13,13 +13,16 @@ import type {
 import type { JSONSchema7 } from 'json-schema';
 import { ZodSchema } from "zod";
 import { zodToJsonSchema } from 'zod-to-json-schema';
+import { BaseResource } from './base';
 
-export class AgentTool {
+export class AgentTool extends BaseResource {
     constructor(
-        private request: RequestFunction,
+        options: ClientOptions,
         private agentId: string,
         private toolId: string
-    ) { }
+    ) {
+        super(options);
+    }
 
     /**
      * Executes a specific tool for an agent
@@ -34,11 +37,13 @@ export class AgentTool {
     }
 }
 
-export class Agent {
+export class Agent extends BaseResource {
     constructor(
-        private request: RequestFunction,
+        options: ClientOptions,
         private agentId: string
-    ) { }
+    ) {
+        super(options);
+    }
 
     /**
      * Retrieves details about the agent
@@ -70,17 +75,17 @@ export class Agent {
      * @param params - Stream parameters including prompt
      * @returns Promise containing the streamed response
      */
-    stream<T extends JSONSchema7 | ZodSchema | undefined = undefined>(params: StreamParams<T>): Promise<StreamReturn<T>> {
+    stream<T extends JSONSchema7 | ZodSchema | undefined = undefined>(params: StreamParams<T>) {
         const processedParams = {
             ...params,
             output: params.output instanceof ZodSchema ? zodToJsonSchema(params.output) : params.output,
             stream: true
         };
 
-        return this.request(`/api/agents/${this.agentId}/generate`, {
+        return this.request(`/api/agents/${this.agentId}/stream`, {
             method: 'POST',
             body: processedParams,
-        });
+        }) as T extends undefined ? Promise<ReadableStream<Uint8Array>> : Promise<Response>;
     }
 
     /**

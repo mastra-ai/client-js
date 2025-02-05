@@ -3,15 +3,18 @@ import type {
     GetVectorIndexResponse,
     QueryVectorParams,
     QueryVectorResponse,
+    ClientOptions,
     UpsertVectorParams,
-    RequestFunction
 } from '../types';
+import { BaseResource } from './base';
 
-export class Vector {
+export class Vector extends BaseResource {
     constructor(
-        private request: RequestFunction,
+        options: ClientOptions,
         private vectorName: string
-    ) { }
+    ) {
+        super(options);
+    }
 
     /**
      * Retrieves details about a specific vector index
