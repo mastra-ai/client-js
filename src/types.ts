@@ -19,6 +19,7 @@ export interface RequestOptions {
     method?: string;
     headers?: Record<string, string>;
     body?: any;
+    stream?: boolean;
 }
 
 export interface GetAgentResponse {

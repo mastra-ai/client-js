@@ -75,17 +75,17 @@ export class Agent extends BaseResource {
      * @param params - Stream parameters including prompt
      * @returns Promise containing the streamed response
      */
-    stream<T extends JSONSchema7 | ZodSchema | undefined = undefined>(params: StreamParams<T>) {
+    stream<T extends JSONSchema7 | ZodSchema | undefined = undefined>(params: StreamParams<T>): Promise<Response> {
         const processedParams = {
             ...params,
             output: params.output instanceof ZodSchema ? zodToJsonSchema(params.output) : params.output,
-            stream: true
         };
 
         return this.request(`/api/agents/${this.agentId}/stream`, {
             method: 'POST',
             body: processedParams,
-        }) as T extends undefined ? Promise<ReadableStream<Uint8Array>> : Promise<Response>;
+            stream: true
+        })
     }
 
     /**

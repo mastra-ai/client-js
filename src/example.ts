@@ -16,17 +16,30 @@ import { MastraClient } from "./client";
                 createdAt: new Date(),
                 threadId: '1',
                 type: 'text',
-            }],
+            }]
         })
 
 
-        const reader = response?.getReader()
+        const reader = response?.body?.getReader()
+        const decoder = new TextDecoder()
+        let buffer = ''
+
         while (true) {
-            const { done, value } = await reader.read();
+            if (!reader) break;
+            const { value, done } = await reader.read()
             if (done) break;
 
-            const text = new TextDecoder().decode(value);
-            console.log(text);
+            const chunk = decoder.decode(value);
+            buffer += chunk;
+
+            console.log(buffer);
+
+            const matches = buffer.matchAll(/0:"([^"]*)"/g);
+
+            for (const match of matches) {
+                const content = match[1];
+                process.stdout.write(`${content}\n`);
+            }
         }
     } catch (error) {
         console.error(error);
