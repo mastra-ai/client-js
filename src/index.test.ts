@@ -266,8 +266,8 @@ describe('MastraClient Resources', () => {
                 }]
             });
 
-            expect(response).toBeInstanceOf(ReadableStream);
-            const reader = response?.getReader();
+            expect(response.body).toBeInstanceOf(ReadableStream);
+            const reader = response?.body?.getReader();
             expect(reader).toBeDefined();
 
             if (reader) {
