@@ -23,10 +23,10 @@ export interface RequestOptions {
 }
 
 export interface GetAgentResponse {
-    name: string;
-    model: string;
+    name: string
     instructions: string;
     tools: Record<string, GetToolResponse>;
+    provider: string;
 }
 
 export interface GenerateParams<T extends JSONSchema7 | ZodSchema | undefined = undefined> {
