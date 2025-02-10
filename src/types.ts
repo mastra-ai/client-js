@@ -30,14 +30,14 @@ export interface GetAgentResponse {
 }
 
 export interface GenerateParams<T extends JSONSchema7 | ZodSchema | undefined = undefined> {
-    messages: MessageType[];
+    messages: string | string[] | CoreMessage[];
     threadId?: string;
     resourceid?: string;
     output?: OutputType | T
 }
 
 export interface StreamParams<T extends JSONSchema7 | ZodSchema | undefined = undefined> {
-    messages: MessageType[];
+    messages: string | string[] | CoreMessage[];
     threadId?: string;
     resourceid?: string;
     output?: OutputType | T
