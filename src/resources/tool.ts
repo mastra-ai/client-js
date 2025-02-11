@@ -22,7 +22,7 @@ export class Tool extends BaseResource {
      * @param params - Parameters required for tool execution
      * @returns Promise containing the tool execution results
      */
-    execute(params: Record<string, any>): Promise<Record<string, any>> {
+    execute(params: { data: any }): Promise<any> {
         return this.request(`/api/tools/${this.toolId}/execute`, {
             method: 'POST',
             body: params,

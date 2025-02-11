@@ -12,10 +12,6 @@ import { MastraClient } from "./client";
             messages: [{
                 role: 'user',
                 content: 'Hello, world!',
-                id: '1',
-                createdAt: new Date(),
-                threadId: '1',
-                type: 'text',
             }]
         })
 

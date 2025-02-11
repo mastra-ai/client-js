@@ -29,7 +29,7 @@ export class AgentTool extends BaseResource {
      * @param params - Parameters required for tool execution
      * @returns Promise containing tool execution results
      */
-    execute(params: Record<string, any>): Promise<Record<string, any>> {
+    execute(params: { data: any }): Promise<any> {
         return this.request(`/api/agents/${this.agentId}/tools/${this.toolId}/execute`, {
             method: 'POST',
             body: params,
