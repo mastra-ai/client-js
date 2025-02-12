@@ -110,6 +110,6 @@ export class Agent extends BaseResource {
      * @returns Promise containing live agent evaluations
      */
     liveEvals(): Promise<GetEvalsByAgentIdResponse> {
-        return this.request(`/api/agents/${this.agentId}/evals/live`);
+        return this.request(`/api/agents/${this.agentId}/evals/ci`);
     }
 } 
