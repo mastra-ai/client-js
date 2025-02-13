@@ -143,11 +143,11 @@ export class MastraClient extends BaseResource {
         const _attribute = attribute ? Object.entries(attribute).map(([key, value]) => `${key}:${value}`) : [];
 
         const queryObj = {
-          ...(name ? { name } : {}),
-          ...(scope ? { scope } : {}),
-          ...(String(page) ? { page: String(page) } : {}),
-          ...(perPage ? { perPage: String(perPage) } : {}),
-          ...(_attribute?.length ? { attribute: _attribute } : {})
+            name: name ?? '', 
+            scope: scope ?? '', 
+            page: String(page) ? String(page) : '', 
+            perPage: perPage ? String(perPage) : '', 
+            attribute: _attribute?.length ? _attribute : ''
         }
 
         const hasQueryParams = Object.keys(queryObj).length > 0;
