@@ -12,7 +12,8 @@ import { BaseResource } from './base';
 export class MemoryThread extends BaseResource {
     constructor(
         options: ClientOptions,
-        private threadId: string
+        private threadId: string,
+        private agentId: string
     ) {
         super(options);
     }
@@ -22,7 +23,7 @@ export class MemoryThread extends BaseResource {
      * @returns Promise containing thread details including title and metadata
      */
     get(): Promise<StorageThreadType> {
-        return this.request(`/api/memory/threads/${this.threadId}`);
+        return this.request(`/api/memory/threads/${this.threadId}?agentId=${this.agentId}`);
     }
 
     /**
@@ -31,7 +32,7 @@ export class MemoryThread extends BaseResource {
      * @returns Promise containing updated thread details
      */
     update(params: UpdateMemoryThreadParams): Promise<StorageThreadType> {
-        return this.request(`/api/memory/threads/${this.threadId}`, {
+        return this.request(`/api/memory/threads/${this.threadId}?agentId=${this.agentId}`, {
             method: 'PATCH',
             body: params,
         });
@@ -42,7 +43,7 @@ export class MemoryThread extends BaseResource {
      * @returns Promise containing deletion result
      */
     delete(): Promise<{ result: string }> {
-        return this.request(`/api/memory/threads/${this.threadId}`, {
+        return this.request(`/api/memory/threads/${this.threadId}?agentId=${this.agentId}`, {
             method: 'DELETE',
         });
     }
@@ -52,6 +53,6 @@ export class MemoryThread extends BaseResource {
      * @returns Promise containing thread messages and UI messages
      */
     getMessages(): Promise<GetMemoryThreadMessagesResponse> {
-        return this.request(`/api/memory/threads/${this.threadId}/messages`);
+        return this.request(`/api/memory/threads/${this.threadId}/messages?agentId=${this.agentId}`);
     }
 } 
