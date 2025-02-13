@@ -102,7 +102,7 @@ export class Agent extends BaseResource {
      * @returns Promise containing agent evaluations
      */
     evals(): Promise<GetEvalsByAgentIdResponse> {
-        return this.request(`/api/agents/${this.agentId}/evals`);
+        return this.request(`/api/agents/${this.agentId}/evals/ci`);
     }
 
     /**
@@ -110,6 +110,6 @@ export class Agent extends BaseResource {
      * @returns Promise containing live agent evaluations
      */
     liveEvals(): Promise<GetEvalsByAgentIdResponse> {
-        return this.request(`/api/agents/${this.agentId}/evals/ci`);
+        return this.request(`/api/agents/${this.agentId}/evals/live`);
     }
 } 
