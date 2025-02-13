@@ -1,4 +1,4 @@
-import type { ClientOptions, CreateMemoryThreadParams, CreateMemoryThreadResponse, GetAgentResponse, GetLogParams, GetLogsParams, GetLogsResponse, GetMemoryThreadParams, GetMemoryThreadResponse, GetToolResponse, GetWorkflowResponse, RequestOptions, SaveMessageToMemoryParams, SaveMessageToMemoryResponse } from './types';
+import type { ClientOptions, CreateMemoryThreadParams, CreateMemoryThreadResponse, GetAgentResponse, GetLogParams, GetLogsParams, GetLogsResponse, GetMemoryThreadParams, GetMemoryThreadResponse, GetTelemetryParams, GetTelemetryResponse, GetToolResponse, GetWorkflowResponse, RequestOptions, SaveMessageToMemoryParams, SaveMessageToMemoryResponse } from './types';
 import { Agent, MemoryThread, Tool, Workflow, Vector, BaseResource } from './resources';
 
 export class MastraClient extends BaseResource {
@@ -131,5 +131,26 @@ export class MastraClient extends BaseResource {
      */
     public getLogForRun(params: GetLogParams): Promise<GetLogsResponse> {
         return this.request(`/api/logs/${params.runId}?transportId=${params.transportId}`);
+    }
+
+    /**
+     * List of all traces (paged)
+     * @param params - Parameters for filtering traces
+     * @returns Promise containing telemetry data
+     */ 
+    public getTelemetry(params?: GetTelemetryParams): Promise<GetTelemetryResponse> {
+        const { name, scope, page, perPage, attribute } = params || {};
+        const _attribute = attribute ? Object.entries(attribute).map(([key, value]) => `${key}:${value}`) : [];
+
+        const queryObj = {
+            name: name ?? '', 
+            scope: scope ?? '', 
+            page: String(page) ? String(page) : '', 
+            perPage: perPage ? String(perPage) : '', 
+            attribute: _attribute?.length ? _attribute : ''
+        }
+
+        const queryParams = new URLSearchParams(queryObj);
+        return this.request(`/api/telemetry?${queryParams}`);
     }
 } 

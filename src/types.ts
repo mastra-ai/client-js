@@ -143,3 +143,15 @@ export type RequestFunction = (
     path: string,
     options?: RequestOptions
 ) => Promise<any>;
+
+export interface GetTelemetryResponse {
+    traces: any[]
+}
+
+export interface GetTelemetryParams {
+    name?: string,
+    scope?: string,
+    page?: number,
+    perPage?: number,
+    attribute?: Record<string, string>
+}
