@@ -90,6 +90,9 @@ const client = new MastraClient({
 - `getLogs(params)`: Get system logs
 - `getLog(params)`: Get specific log entry
 
+### Telemetry
+- `getTelemetry(params)`: Get telemetry data
+
 ## Error Handling
 
 The client includes built-in retry logic for failed requests:
