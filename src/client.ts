@@ -145,7 +145,7 @@ export class MastraClient extends BaseResource {
         const queryObj = {
             name: name ?? '', 
             scope: scope ?? '', 
-            page: String(page) ? String(page) : '', 
+            page: page ? String(page) : '', 
             perPage: perPage ? String(perPage) : '', 
             attribute: _attribute?.length ? _attribute : ''
         }
