@@ -143,14 +143,16 @@ export class MastraClient extends BaseResource {
         const _attribute = attribute ? Object.entries(attribute).map(([key, value]) => `${key}:${value}`) : [];
 
         const queryObj = {
-            name: name ?? '', 
-            scope: scope ?? '', 
-            page: page ? String(page) : '', 
-            perPage: perPage ? String(perPage) : '', 
-            attribute: _attribute?.length ? _attribute : ''
+          ...(name ? { name } : {}),
+          ...(scope ? { scope } : {}),
+          ...(page ? { page: String(page) } : {}),
+          ...(perPage ? { perPage: String(perPage) } : {}),
+          ...(_attribute?.length ? { attribute: _attribute } : {})
         }
 
-        const queryParams = new URLSearchParams(queryObj);
+        const hasQueryParams = Object.keys(queryObj).length > 0;
+
+        const queryParams = hasQueryParams ? new URLSearchParams(queryObj) : '';
         return this.request(`/api/telemetry?${queryParams}`);
     }
 } 
