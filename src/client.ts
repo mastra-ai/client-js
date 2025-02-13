@@ -31,7 +31,7 @@ export class MastraClient extends BaseResource {
      * @returns Promise containing array of memory threads
      */
     public getMemoryThreads(params: GetMemoryThreadParams): Promise<GetMemoryThreadResponse> {
-        return this.request(`/api/memory/threads?resourceid=${params.resourceId}`);
+        return this.request(`/api/memory/threads?resourceid=${params.resourceId}&agentId=${params.agentId}`);
     }
 
     /**
@@ -40,7 +40,7 @@ export class MastraClient extends BaseResource {
      * @returns Promise containing the created memory thread
      */
     public createMemoryThread(params: CreateMemoryThreadParams): Promise<CreateMemoryThreadResponse> {
-        return this.request('/api/memory/threads', { method: 'POST', body: params });
+        return this.request(`/api/memory/threads?agentId=${params.agentId}`, { method: 'POST', body: params });
     }
 
     /**
@@ -48,8 +48,8 @@ export class MastraClient extends BaseResource {
      * @param threadId - ID of the memory thread to retrieve
      * @returns MemoryThread instance
      */
-    public getMemoryThread(threadId: string) {
-        return new MemoryThread(this.options, threadId);
+    public getMemoryThread(threadId: string, agentId: string) {
+        return new MemoryThread(this.options, threadId, agentId);
     }
 
     /**
@@ -58,7 +58,7 @@ export class MastraClient extends BaseResource {
      * @returns Promise containing the saved messages
      */
     public saveMessageToMemory(params: SaveMessageToMemoryParams): Promise<SaveMessageToMemoryResponse> {
-        return this.request('/api/memory/save-messages', {
+        return this.request(`/api/memory/save-messages?agentId=${params.agentId}`, {
             method: 'POST',
             body: params,
         });
@@ -68,8 +68,8 @@ export class MastraClient extends BaseResource {
      * Gets the status of the memory system
      * @returns Promise containing memory system status
      */
-    public getMemoryStatus(): Promise<{ result: boolean }> {
-        return this.request('/api/memory/status');
+    public getMemoryStatus(agentId: string): Promise<{ result: boolean }> {
+        return this.request(`/api/memory/status?agentId=${agentId}`);
     }
 
     /**

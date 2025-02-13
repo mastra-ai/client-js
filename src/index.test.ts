@@ -326,12 +326,14 @@ describe('MastraClient Resources', () => {
         });
     });
 
+    const agentId = 'test-agent'
+
     describe('Memory Thread Resource', () => {
         const threadId = 'test-thread';
         let memoryThread: ReturnType<typeof client.getMemoryThread>;
 
         beforeEach(() => {
-            memoryThread = client.getMemoryThread(threadId);
+            memoryThread = client.getMemoryThread(threadId, agentId);
         });
 
         it('should get thread details', async () => {
@@ -345,7 +347,7 @@ describe('MastraClient Resources', () => {
             const result = await memoryThread.get();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${clientOptions.baseUrl}/api/memory/threads/test-thread`,
+                `${clientOptions.baseUrl}/api/memory/threads/test-thread?agentId=${agentId}`,
                 expect.objectContaining({
                     headers: expect.objectContaining(clientOptions.headers)
                 })
@@ -367,7 +369,7 @@ describe('MastraClient Resources', () => {
             });
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${clientOptions.baseUrl}/api/memory/threads/test-thread`,
+                `${clientOptions.baseUrl}/api/memory/threads/test-thread?agentId=${agentId}`,
                 expect.objectContaining({
                     method: 'PATCH',
                     headers: expect.objectContaining(clientOptions.headers)
@@ -381,7 +383,7 @@ describe('MastraClient Resources', () => {
             const result = await memoryThread.delete();
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${clientOptions.baseUrl}/api/memory/threads/test-thread`,
+                `${clientOptions.baseUrl}/api/memory/threads/test-thread?agentId=${agentId}`,
                 expect.objectContaining({
                     method: 'DELETE',
                     headers: expect.objectContaining(clientOptions.headers)
@@ -392,10 +394,10 @@ describe('MastraClient Resources', () => {
         it('should get memory status', async () => {
             const mockResponse = { result: true };
             mockFetchResponse(mockResponse);
-            const result = await client.getMemoryStatus();
+            const result = await client.getMemoryStatus(agentId);
             expect(result).toEqual(mockResponse);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${clientOptions.baseUrl}/api/memory/status`,
+                `${clientOptions.baseUrl}/api/memory/status?agentId=${agentId}`,
                 expect.objectContaining({
                     headers: expect.objectContaining(clientOptions.headers)
                 })
@@ -412,10 +414,10 @@ describe('MastraClient Resources', () => {
                 createdAt: new Date()
             }];
             mockFetchResponse(messages);
-            const result = await client.saveMessageToMemory({ messages });
+            const result = await client.saveMessageToMemory({ messages, agentId });
             expect(result).toEqual(messages);
             expect(global.fetch).toHaveBeenCalledWith(
-                `${clientOptions.baseUrl}/api/memory/save-messages`,
+                `${clientOptions.baseUrl}/api/memory/save-messages?agentId=${agentId}`,
                 expect.objectContaining({
                     method: 'POST',
                     headers: expect.objectContaining(clientOptions.headers),

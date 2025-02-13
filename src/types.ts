@@ -94,6 +94,7 @@ export interface GetVectorIndexResponse {
 
 export interface SaveMessageToMemoryParams {
     messages: MessageType[];
+    agentId: string
 }
 
 export type SaveMessageToMemoryResponse = MessageType[]
@@ -103,12 +104,14 @@ export interface CreateMemoryThreadParams {
     metadata: Record<string, any>;
     resourceid: string;
     threadId: string;
+    agentId: string
 }
 
 export type CreateMemoryThreadResponse = StorageThreadType
 
 export interface GetMemoryThreadParams {
     resourceId: string;
+    agentId: string
 }
 
 export type GetMemoryThreadResponse = StorageThreadType[]
