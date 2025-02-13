@@ -134,11 +134,12 @@ export class MastraClient extends BaseResource {
     }
 
     /**
-     * Retrieves telemetry data
+     * List of all traces (paged)
+     * @param params - Parameters for filtering traces
      * @returns Promise containing telemetry data
      */ 
-    public getTelemetry(params: GetTelemetryParams): Promise<GetTelemetryResponse> {
-        const { name, scope, page, perPage, attribute } = params;
+    public getTelemetry(params?: GetTelemetryParams): Promise<GetTelemetryResponse> {
+        const { name, scope, page, perPage, attribute } = params || {};
         const _attribute = attribute ? Object.entries(attribute).map(([key, value]) => `${key}:${value}`) : [];
 
         const queryObj = {
@@ -149,7 +150,9 @@ export class MastraClient extends BaseResource {
           ...(_attribute?.length ? { attribute: _attribute } : {})
         }
 
-        const queryParams = new URLSearchParams(queryObj);
+        const hasQueryParams = Object.keys(queryObj).length > 0;
+
+        const queryParams = hasQueryParams ? new URLSearchParams(queryObj) : '';
         return this.request(`/api/telemetry?${queryParams}`);
     }
 } 
