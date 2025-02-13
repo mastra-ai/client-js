@@ -150,9 +150,7 @@ export class MastraClient extends BaseResource {
             attribute: _attribute?.length ? _attribute : ''
         }
 
-        const hasQueryParams = Object.keys(queryObj).length > 0;
-
-        const queryParams = hasQueryParams ? new URLSearchParams(queryObj) : '';
+        const queryParams = new URLSearchParams(queryObj);
         return this.request(`/api/telemetry?${queryParams}`);
     }
 } 
